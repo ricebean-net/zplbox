@@ -1,0 +1,32 @@
+name: Development Workflow (dev)
+
+on:
+  push:
+    branches: [ main ]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out sources...
+        uses: actions/checkout@v2
+
+      - name: Build Docker Image
+        run: |-
+          docker build \
+            -t "ghcr.io/meixxi/html2zpl:latest" \
+            --build-arg GITHUB_SHA=${GITHUB_SHA} \
+            --build-arg GITHUB_SHORT_SHA=${GITHUB_SHA:0:8} \
+            --build-arg GITHUB_RUN_ID=${GITHUB_RUN_ID} \
+            --build-arg GITHUB_RUN_NUMBER=${GITHUB_RUN_NUMBER} \
+            --build-arg GITHUB_ACTOR=${GITHUB_ACTOR} \
+            .
+
+      - name: Publish Docker Image to github
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
+          docker push "ghcr.io/meixxi/html2zpl:latest"

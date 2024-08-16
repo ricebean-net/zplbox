@@ -30,8 +30,5 @@ class ImageServiceImplTest {
 
         // assert
         assertNotNull(result, "Result is null.");
-
-        File outputfile = new File("/home/stefan/Downloads/mono-image.png");
-        ImageIO.write(result, "png", outputfile);
     }
 }

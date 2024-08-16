@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ZplLabelServiceImplTest {
 
     @InjectMocks
-    private ZplLabelServiceImpl zplLabelService;
+    private ZplServiceImpl zplLabelService;
 
     @Test
     void createGrfBytes() throws Exception {
@@ -48,7 +48,7 @@ class ZplLabelServiceImplTest {
 
         // assert
         assertNotNull(zplData, "Result is null.");
-        System.out.println(zplData);
+//        System.out.println(zplData);
     }
 
 }
