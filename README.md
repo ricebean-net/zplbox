@@ -1,7 +1,7 @@
 # HTML 2 ZPL
 **Use your favorite web framework to design ZPL Labels far more straightforward and sophisticated than native ZPL will ever allow you!**
 
-html2zpl is based on embedded Chromium, rendering your web content as PNG. So, you can leverage the full web technology stack to create your labels.
+html2zpl is based on an embedded Chromium, rendering your web content as PNG. So, you can leverage the full web technology stack to create your labels.
 You can submit your web content via a file or by referencing it using an external URL (preferred).
 
 Once rendered as PNG, your content will be converted into a monochrome image and encoded in a ZPL native ASCII hexadecimal string. 
