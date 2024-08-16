@@ -5,11 +5,11 @@ html2zpl is based on an embedded Chromium, rendering your web content as PNG. So
 You can submit your web content via a file or by referencing it using an external URL (preferred).
 
 Once rendered as PNG, your content will be converted into a monochrome image and encoded in a ZPL native ASCII hexadecimal string. 
-The final ZPL label sent to the printer consists of only the ASCII hexadecimal string embedded in a Graphic Field (^GF). 
+The final ZPL label consists of only the ASCII hexadecimal string embedded in a Graphic Field (^GF) and will sent back in the response. 
 
 This approach will allow you new possibilities, which are nearly impossible with native ZPL, including:
-* **Images:** Embed and scale images using default web technologies
-* **Fonts:** You can use any font supported by web frameworks
+* **Images:** Embed and scale images flexibly using default web technologies
+* **Fonts:** You can use any fonts supported by web frameworks
 * **Text / Typography:** You can use any methods you use in web design.
 * ...
 
