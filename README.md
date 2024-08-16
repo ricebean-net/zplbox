@@ -39,3 +39,12 @@ POST: /v1/html2zpl/
 ^FO0,0^GFA,60000,60000,75,[...]
 ^XZ
 ```
+
+## Example
+Here is an example using the curl command.
+```shell
+curl --request POST \
+     --url http://localhost:8080/v1/html2zpl/ \
+	 --header 'content-type: application/json' \
+	 --data '{ "url":"http://192.168.42.87:3000", "widthPts":600, "heightPts":800 }'
+```
