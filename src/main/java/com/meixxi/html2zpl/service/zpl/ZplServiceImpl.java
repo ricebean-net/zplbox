@@ -5,11 +5,10 @@ import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
-import java.awt.image.Raster;
 import java.io.ByteArrayOutputStream;
 
 @Service
-public class ZplLabelServiceImpl implements ZplLabelService {
+public class ZplServiceImpl implements ZplService {
 
     @Override
     public String createLabel(BufferedImage bufferedImage) {
@@ -17,8 +16,8 @@ public class ZplLabelServiceImpl implements ZplLabelService {
         // convert to grf bytes
         byte[] grfBytes = createGrfBytes(bufferedImage);
 
-        // create final ZPL String
-        String zplData = String.format("""
+        // create and return final ZPL data
+        return String.format("""
                 ^XA
                 ^FO0,0^GFA,%d,%d,%d,%s
                 ^XZ
@@ -28,9 +27,6 @@ public class ZplLabelServiceImpl implements ZplLabelService {
                 grfBytes.length / bufferedImage.getHeight(),
                 Hex.encodeHexString(grfBytes)
                 );
-
-        // return zpl data
-        return zplData;
     }
 
     /**
