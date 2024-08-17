@@ -34,7 +34,7 @@ public class Html2ZplController {
     @Autowired
     private ZplService zplService;
 
-    @PostMapping(value = "/", consumes = APPLICATION_JSON_VALUE, produces = {IMAGE_PNG_VALUE, APPLICATION_PROBLEM_JSON_VALUE})
+    @PostMapping(value = "", consumes = APPLICATION_JSON_VALUE, produces = {IMAGE_PNG_VALUE, APPLICATION_PROBLEM_JSON_VALUE})
     public ResponseEntity<?> createZplLabel(@RequestBody RenderingParams renderingParams) throws Exception {
         log.info("New request has been received...");
 

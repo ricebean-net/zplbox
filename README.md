@@ -23,7 +23,7 @@ docker run -p 8080:8080  ghcr.io/meixxi/html2zpl:main
 This example reference the test label 1 coming (see Test Lasbels below)
 ```shell
 curl --request POST \
-     --url http://localhost:8080/v1/html2zpl/ \
+     --url http://localhost:8080/v1/html2zpl \
 	 --header 'content-type: application/json' \
 	 --data '{ "url":"http://localhost:8080/labels/test-label-1.html", "widthPts":600, "heightPts":800 }'
 ```
@@ -41,7 +41,7 @@ You can find test labels in static resource folder of the project:
 ## API Reference:
 ### Endpoint
 ```shell
-POST: /v1/html2zpl/
+POST: /v1/html2zpl
 ```
 
 ### Payload:
