@@ -43,16 +43,12 @@ public class ZplServiceImpl implements ZplService {
             imgWidth ++;
         }
 
-        int imgHeight = bufferedImage.getHeight();
-        int dataPointer = 0;
-        for(int y = 0; y < imgHeight; y++) {
-            for(int x = 0; x < imgWidth; x ++) {
-                int byteValue = invert(dataBuffer.getElem(dataPointer ++));
-                if (x == imgWidth - 1) {
+        for(int pos = 0; pos < dataBuffer.getSize(); pos++) {
+                int byteValue = invert(dataBuffer.getElem(pos));
+                if (0 == (pos + 1) % imgWidth) {
                     byteValue = maskOff(byteValue, getNumBitsToMask(bufferedImage.getWidth()));
                 }
                 bos.write(byteValue);
-            }
         }
 
         // convert to hex code and return

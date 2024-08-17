@@ -28,7 +28,7 @@ POST: /v1/html2zpl/
 ### Payload:
 ```json
 {
-    "url": "http://192.168.42.87:3000",
+    "url": "http://localhost:8080/labels/test-label-1.html",
     "widthPts": 600,
     "heightPts": 800
 }
@@ -46,5 +46,9 @@ Here is an example using the curl command.
 curl --request POST \
      --url http://localhost:8080/v1/html2zpl/ \
 	 --header 'content-type: application/json' \
-	 --data '{ "url":"http://192.168.42.87:3000", "widthPts":600, "heightPts":800 }'
+	 --data '{ "url":"http://localhost:8080/labels/test-label-1.html", "widthPts":600, "heightPts":800 }'
 ```
+
+## Test Labels
+You can find test labels in static resource folder of the project:
+* **test-label-1.html:** [src/main/resources/static/labels/test-label-1.html](src/main/resources/static/labels/test-label-1.html) (URL: http://localhost:8080/labels/test-label-1.html)
