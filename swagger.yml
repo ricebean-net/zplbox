@@ -1,0 +1,86 @@
+openapi: 3.0.3
+info:
+  title: HTML 2 ZPL
+  description: |-
+    Conversion of web content into ZPL.
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080/
+tags:
+  - name: html2zpl
+    description: Conversion of web content to ZPL.
+paths:
+  /v1/html2zpl:
+    post:
+      tags:
+        - html2zpl
+      summary: Conversion of web content to ZPL.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RenderingParams'
+      responses:
+        '200':
+          $ref: "#/components/responses/ZplLabelResponse"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+components:
+  responses:
+    ZplLabelResponse:
+      description: The ZPL Label
+      content:
+        text/plain:
+          $ref: '#components/schemas/ZplLabel'
+    BadRequest:
+      description: The request could not be understood by the server due to malformed syntax.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    NoContent:
+      description: No content.
+
+  schemas:
+    RenderingParams:
+      type: object
+      properties:
+        url:
+          type: string
+          description: The url of the web content to be rendered.
+          example: http://localhost:8080/labels/test-label-1.html
+        widthPts:
+          type: integer
+          description: The target rendered width of the ZPL label in points.
+          example: 600
+        heightPts:
+          type: integer
+          description: The target rendered width of the ZPL label in points.
+          example: 800
+
+    ProblemDetails:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 400
+        title:
+          type: string
+          example: Unsupported Operation
+        type:
+          type: string
+          example: type
+        detail:
+          type: string
+          example: some more details
+
+    ZplLabel:
+      type: string
+      example: |
+        ^XA 
+        ^FO0,0^GFA,60000,60000,75,FFF8C000180000003...
+        ^XZ
+
+        
+
