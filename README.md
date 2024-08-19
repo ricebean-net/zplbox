@@ -17,7 +17,7 @@ This approach will allow you new possibilities, which are nearly impossible with
 ## Quick Start
 ### 1. Start html2zpl as Docker container:
 ```shell
-docker run -p 8080:8080  ghcr.io/meixxi/html2zpl:main
+docker run -p 8080:8080  ghcr.io/meixxi/html2zpl:latest
 ```
 ### 2. Creation of a test label:
 This example reference the file test-label-1.html, pre-installed in the docker container. More about test labels you can find below.
