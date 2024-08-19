@@ -1,5 +1,8 @@
 app:
-  name: html2zpl
+  name: @appname@
+  version: @version@
+  buildtime: @buildtime@
+
 
 spring:
   main:

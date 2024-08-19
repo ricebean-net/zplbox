@@ -14,7 +14,7 @@ WORKDIR /work/app
 
 ARG VERSION=0.0.0
 
-RUN ./gradlew -i build --no-daemon
+RUN ./gradlew -i build -PprojectVersion=${VERSION} --no-daemon
 
 RUN rm /work/app/build/libs/*-plain.jar \
     && cp /work/app/build/libs/*.jar /work/app/build/libs/html2zpl.jar
@@ -34,6 +34,12 @@ RUN $JAVA_HOME/bin/jlink \
          
 # create final image
 FROM alpine:3
+
+ARG VERSION
+ARG COMMIT_SHA
+
+ENV VERSION=${VERSION}
+ENV COMMIT_SHA=${COMMIT_SHA}
 
 ENV LANGUAGE=en_US
 ENV LANG=en_US.utf-8
