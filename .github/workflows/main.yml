@@ -34,7 +34,7 @@ jobs:
         run: |-
           docker build \
             -t "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest" \
-            -t "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{VERSION}}" \
+            -t "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{env.VERSION}}" \
             --build-arg VERSION=${{VERSION}} \
             --build-arg GITHUB_SHA=${GITHUB_SHA} \
             .
@@ -42,4 +42,4 @@ jobs:
       - name: Publish Docker Image to github
         run: |
           docker push "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
-          docker push "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{VERSION}}"
+          docker push "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{env.VERSION}}"
