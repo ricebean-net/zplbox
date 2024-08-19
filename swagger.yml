@@ -8,7 +8,7 @@ servers:
   - url: http://localhost:8080/
 tags:
   - name: html2zpl
-    description: Conversion of web content to ZPL.
+    description: Conversion of HTML based web content to ZPL.
 paths:
   /v1/html2zpl:
     post:
@@ -32,7 +32,8 @@ components:
       description: The ZPL Label
       content:
         text/plain:
-          $ref: '#components/schemas/ZplLabel'
+          schema:
+            $ref: '#/components/schemas/ZplLabel'
     BadRequest:
       description: The request could not be understood by the server due to malformed syntax.
       content:
