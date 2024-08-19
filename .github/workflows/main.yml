@@ -35,7 +35,7 @@ jobs:
           docker build \
             -t "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest" \
             -t "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{env.VERSION}}" \
-            --build-arg VERSION=${{VERSION}} \
+            --build-arg VERSION=${{env.VERSION}} \
             --build-arg GITHUB_SHA=${GITHUB_SHA} \
             .
 
