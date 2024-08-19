@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: meixxi
   VERSION: 1.0.${{github.run.number}}
 
 jobs:
