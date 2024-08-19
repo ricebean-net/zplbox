@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: meixxi
+  IMAGE_NAME: meixxi/html2zpl
   VERSION: 1.0.${{github.run_number}}
 
 jobs:
