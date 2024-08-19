@@ -7,7 +7,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: meixxi
-  VERSION: 1.0.${{github.run.number}}
+  VERSION: 1.0.${{github.run_number}}
 
 jobs:
   build-and-push-image:
