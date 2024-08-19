@@ -36,7 +36,7 @@ jobs:
             -t "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest" \
             -t "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{env.VERSION}}" \
             --build-arg VERSION=${{env.VERSION}} \
-            --build-arg GITHUB_SHA=${GITHUB_SHA} \
+            --build-arg COMMIT_SHA=${GITHUB_SHA} \
             .
 
       - name: Publish Docker Image to github

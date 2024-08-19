@@ -9,6 +9,8 @@ servers:
 tags:
   - name: html2zpl
     description: Conversion of HTML based web content to ZPL.
+  - name: System
+    description: System Endpoint.
 paths:
   /v1/html2zpl:
     post:
@@ -25,6 +27,32 @@ paths:
           $ref: "#/components/responses/ZplLabelResponse"
         '400':
           $ref: '#/components/responses/BadRequest'
+
+  /version:
+    get:
+      tags:
+        - System
+      summary: Version details.
+      responses:
+        '200':
+          description: Version details
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/Version"
+
+  /status:
+    get:
+      tags:
+        - System
+      summary: Status details.
+      responses:
+        '200':
+          description: Status details
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/Status"
 
 components:
   responses:
@@ -75,6 +103,49 @@ components:
         detail:
           type: string
           example: some more details
+
+    Version:
+      type: object
+      properties:
+        appName:
+          type: string
+          example: html2zpl
+        appVersion:
+          type: string
+          example: 1.0.1
+        commitId:
+          type: string
+          example: c51cc22b4873d280f95b4eff63bbfbdec431f42f
+
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Is always 'UP'.
+          example: UP
+        startTime:
+          type: integer
+          description: The service's start time in epoch millis
+          example: 1724108519253
+        startTimeReadable:
+          type: string
+          description: The start time in a human-readable format
+          example: 2024-08-20T01:01:59.253+02:00[Europe/Berlin]
+        duration:
+          type: integer
+          description: Relative start time in epoch millis
+          example: 10100
+        durationReadable:
+          type: string
+          description: Relative start time in a human-readable format
+          example: 00h 00m 10s
+        hostname:
+          type: string
+          description: The hosts name.
+          example: host01
+        version:
+          $ref: "#/components/schemas/Version"
 
     ZplLabel:
       type: string
