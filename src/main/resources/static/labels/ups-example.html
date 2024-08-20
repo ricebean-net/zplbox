@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UPS Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/bwip-js@4.5.1/dist/bwip-js.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body class="vh-100">
+
+    <div class="container-fluid h-100 p-4">
+
+        <!-- first quarter -->
+        <div class="row border-bottom border-dark border-2" style="height: 25%;">
+            <div class="col text-center">
+                <div class="fs-2"><b>Example of an UPS Shipping label.</b></div>
+                <div class="fs-2"><i>Generated with HTML, Bootstrap 5.3 and BWIP-JS.</i></div>
+                <div><i class="bi bi-truck" style="font-size: 160pt;"></i></div>
+            </div>
+        </div>
+
+        <!-- second quarter -->
+        <div class="row border-bottom border-dark border-5" style="height: 25%;">
+            <div class="col">
+
+                <div class="container-fluid d-flex flex-column p-0 h-100">
+                    <div class="row">
+                        <div class="col-5 fs-6 lh-1 pt-2"> 
+                            JANE DOE <br />
+                            (555) 555-555555 <br />
+                            12380 MORRIS ROAD <br />
+                            ALPHARETTA GA 30005
+                        </div>
+                        <div class="col-2 fs-3 text-center">
+                            <b>5 LBS</b>
+                        </div>
+                        <div class="col-5 fs-3 text-end">
+                            <b>1 OF 1</b>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col fs-2"><b>SHIP TO</b></div>
+                    </div>
+
+                    <div class="row flex-fill">
+                        <div class="col lh-1 fs-2 ps-5">
+                            JANE DOE <br />
+                            (555) 555-555555 <br />
+                            12380 MORRIS ROAD <br />
+                            <div class="fs-1"><b>ALPHARETTA GA 30005</b></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- third quarter -->
+        <div class="row" style="height: 25%;">
+            <div class="col">
+
+                <div class="container-fluid d-flex flex-column p-0 h-100">
+                    <div class="row">
+                        <div class="col-4 border-end border-dark border-3">
+                            <canvas id="barcode-1" class="w-100 my-2"></canvas>
+                        </div>
+                        <div class="col-8 ps-5">
+                            <div style="font-size: 50pt;"><b>GA 300 9-03</b></div>
+                            <div><canvas id="barcode-2" class=" h-100"></canvas></div>
+                        </div>
+                    </div>
+
+                    <div class="row bg-black" style="height: 15px;">
+                        <div class="col"></div>
+                    </div>
+
+                    <div class="row flex-fill">
+                        <div class="col-9">
+                            <div style="font-size: 40pt;"><b>UPS NEXT DAY AIR</b></div>
+                            <div class="fs-3">TRACKING #: 1YE5959999999999999</div>
+                        </div>
+                        <div class="col-3 p-0">
+                            <div class="p-0 m-0" style="font-size: 70pt"><b>1</b></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- forth quarter -->
+        <div class="row border-top border-dark border-5" style="height: 25%;">
+            <div class="col">
+
+                <div class="container-fluid d-flex flex-column p-0 h-100">
+                    <div class="row p-3 border-bottom border-dark border-5">
+                        <div class="col text-center">
+                            <canvas id="barcode-3" class="w-75"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="row flex-fill">
+                        <div class="col position-relative">
+                            <div class="fs-5">BILLING: P/P</div>
+                            <div class="position-absolute bottom-0 end-0 text-end fs-5">
+                                UPS Label Example by html2zpl (https://github.com/meiXXI/html2zpl)<br />
+                                <small>Source: https://www.ups.com/assets/resources/webcontent/en_GB/CustomLabelHowTo.pdf</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        bwipjs.toCanvas('barcode-1', {
+            bcid: "maxicode",
+            text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            scale: 3,
+            includetext: false,
+        });
+
+        bwipjs.toCanvas('barcode-2', {
+            bcid: "code128",
+            text: "GA 300 9-03",
+            scale: 2,
+            height: 20,
+            includetext: false,
+        });
+
+        bwipjs.toCanvas('barcode-3', {
+            bcid: "code128",
+            text: "1YE5959999999999999",
+            scale: 2,
+            height: 20,
+            includetext: false,
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

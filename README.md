@@ -20,12 +20,12 @@ This approach will allow you new possibilities, which are nearly impossible with
 docker run -p 8080:8080  ghcr.io/meixxi/html2zpl:latest
 ```
 ### 2. Creation of a test label:
-This example reference the file test-label-1.html, pre-installed in the docker container. More about test labels you can find below.
+This example reference the test label 'ups-example.html', pre-installed in the docker container. More about test labels you can find below.
 ```shell
 curl --request POST \
      --url http://localhost:8080/v1/html2zpl \
 	 --header 'content-type: application/json' \
-	 --data '{ "url":"http://localhost:8080/labels/test-label-1.html", "widthPts":600, "heightPts":800 }'
+	 --data '{ "url":"http://localhost:8080/labels/ups-example.html", "widthPts":600, "heightPts":800 }'
 ```
 
 ### 3. Verify the output 
@@ -33,8 +33,20 @@ Copy the generated ZPL Code to https://labelary.com/viewer.html to get a visual 
 
 
 ## Test Labels
-You can find test labels in static resource folder of the project:
-* **test-label-1.html:** [src/main/resources/static/labels/test-label-1.html](src/main/resources/static/labels/test-label-1.html) (URL: http://localhost:8080/labels/test-label-1.html)
+The html2zpl project comes with a set of pre-installed example labels. 
+
+### UPS Shipping Label Example
+Reference: https://www.ups.com/assets/resources/webcontent/en_GB/CustomLabelHowTo.pdf 
+
+Target Label Size : 4 x 8 inches  
+Resolution Printer: 8dpmm (203 dpi)  
+Size Label in Pixes: 812 x 1624	 pixels
+
+Project Path: [src/main/resources/static/labels/ups-example](src/main/resources/static/labels/ups-example.html)  
+Container URL: http://localhost:8080/labels/ups-example.html
+
+![Label Design UPS](./screens/label-design-ups.png)
+
 
 
 ## API Reference:
