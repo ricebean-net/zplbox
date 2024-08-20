@@ -17,15 +17,15 @@ This approach will allow you new possibilities, which are nearly impossible with
 ## Quick Start
 ### 1. Start html2zpl as Docker container:
 ```shell
-docker run -p 8080:8080  ghcr.io/meixxi/html2zpl:latest
+docker run -p 8080:8080 ghcr.io/meixxi/html2zpl:latest
 ```
 ### 2. Creation of a test label:
 This example reference the test label 'ups-example.html', pre-installed in the docker container. More about test labels you can find below.
 ```shell
 curl --request POST \
      --url http://localhost:8080/v1/html2zpl \
-	 --header 'content-type: application/json' \
-	 --data '{ "url":"http://localhost:8080/labels/ups-example.html", "widthPts":812, "heightPts":1624 }'
+     --header 'content-type: application/json' \
+     --data '{ "url":"http://localhost:8080/labels/ups-example.html", "widthPts":812, "heightPts":1624 }'
 ```
 
 ### 3. Verify the output 
