@@ -4,7 +4,6 @@ import com.meixxi.html2zpl.controller.v1.model.ProblemDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON_VALUE;

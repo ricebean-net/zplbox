@@ -25,7 +25,7 @@ This example reference the test label 'ups-example.html', pre-installed in the d
 curl --request POST \
      --url http://localhost:8080/v1/html2zpl \
 	 --header 'content-type: application/json' \
-	 --data '{ "url":"http://localhost:8080/labels/ups-example.html", "widthPts":600, "heightPts":800 }'
+	 --data '{ "url":"http://localhost:8080/labels/ups-example.html", "widthPts":812, "heightPts":1624 }'
 ```
 
 ### 3. Verify the output 
@@ -44,6 +44,8 @@ Size Label in Pixes: 812 x 1624	 pixels
 
 Project Path: [src/main/resources/static/labels/ups-example](src/main/resources/static/labels/ups-example.html)  
 Container URL: http://localhost:8080/labels/ups-example.html
+
+**NOTE: Adjust label size to 4 x 8 inches for this label on https://labelary.com/viewer.html**
 
 ![Label Design UPS](./screens/label-design-ups.png)
 
