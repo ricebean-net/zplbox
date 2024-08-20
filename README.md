@@ -48,6 +48,7 @@ Container URL: http://localhost:8080/labels/ups-example.html
 **NOTE: Adjust label size to 4 x 8 inches for this label on https://labelary.com/viewer.html**
 
 ![Label Design UPS](./screens/label-design-ups.png)
+*Google Chrome: Developer tools -> Custom Viewport Size (here: 812 x 1624 pixels - scale: 50 %)*
 
 
 
