@@ -37,7 +37,7 @@ paths:
         '200':
           description: Version details
           content:
-            text/plain:
+            application/json:
               schema:
                 $ref: "#/components/schemas/Version"
 
@@ -50,7 +50,7 @@ paths:
         '200':
           description: Status details
           content:
-            text/plain:
+            application/json:
               schema:
                 $ref: "#/components/schemas/Status"
 
