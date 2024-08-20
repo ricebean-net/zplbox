@@ -1,0 +1,29 @@
+body {
+  font: 62.5% Verdana, Arial, Helvetica, sans-serif;
+  font-size: 100%;
+  color: #3C3C3C;
+}
+
+h1 {
+  font-size: 1.8em;
+  font-weight: 300;
+  color: #7B0323;
+}
+
+h2 {
+  font-size: 1.4em;
+  font-weight: 400;
+  color: #7B0323;
+}
+
+h3 {
+  font-size: 1.1em;
+  font-weight: 400;
+  color: #7B0323;
+}
+
+h4 {
+  font-size: 1.1em;
+  font-weight: 400;
+  color: #7B0323;
+}
