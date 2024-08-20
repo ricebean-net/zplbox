@@ -31,6 +31,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'commons-io:commons-io:2.+'
 	implementation 'commons-codec:commons-codec:1.+'
 

@@ -66,7 +66,7 @@ public class RenderServiceImpl implements RenderService {
         BufferedReader stdErr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
         String errorLine;
         while ((errorLine = stdErr.readLine()) != null) {
-            log.error("Chromium: {}", errorLine);
+            log.warn("Chromium: {}", errorLine);
         }
 
         int exitCode = process.waitFor();
