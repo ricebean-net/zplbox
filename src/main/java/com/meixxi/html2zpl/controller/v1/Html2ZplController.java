@@ -38,7 +38,7 @@ public class Html2ZplController {
     private ZplService zplService;
 
     @PostMapping(value = "", consumes = APPLICATION_JSON_VALUE, produces = {TEXT_PLAIN_VALUE, APPLICATION_PROBLEM_JSON_VALUE})
-    public ResponseEntity<?> createZplLabel(@RequestBody RenderingParams renderingParams, HttpServletRequest httpServletRequest) throws Exception {
+    public ResponseEntity<?> createZplLabel(@RequestBody RenderingParams renderingParams, HttpServletRequest httpServletRequest) {
         log.info("New request has been received...");
 
        try {
