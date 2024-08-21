@@ -16,7 +16,7 @@ paths:
     post:
       tags:
         - html2zpl
-      summary: Conversion of web content to ZPL.
+      summary: Conversion of web content to a ZPL Label.
       requestBody:
         content:
           application/json:
@@ -25,6 +25,27 @@ paths:
       responses:
         '200':
           $ref: "#/components/responses/ZplLabelResponse"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /v1/html2zpl/render:
+    post:
+      tags:
+        - html2zpl
+      summary: Rendering of web content to a colored PNG.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RenderingParams'
+      responses:
+        '200':
+          description: The rendered PNG image.
+          content:
+              application/png:
+                schema: 
+                  type: string
+                  format: binary
         '400':
           $ref: '#/components/responses/BadRequest'
 

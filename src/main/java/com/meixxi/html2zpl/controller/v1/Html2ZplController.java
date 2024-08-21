@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 
 import static org.springframework.http.MediaType.*;
 
@@ -36,7 +38,7 @@ public class Html2ZplController {
 
     @PostMapping(value = "", consumes = APPLICATION_JSON_VALUE, produces = {TEXT_PLAIN_VALUE, APPLICATION_PROBLEM_JSON_VALUE})
     public ResponseEntity<?> createZplLabel(@RequestBody RenderingParams renderingParams, HttpServletRequest httpServletRequest) {
-        log.info("New request has been received...");
+        log.info("New request 'Create ZPL Label' has been received...");
 
        try {
 
@@ -56,5 +58,23 @@ public class Html2ZplController {
 
            return Responses.createBadRequestResponse(httpServletRequest, ex);
        }
+    }
+
+    @PostMapping(value = "/render", consumes = APPLICATION_JSON_VALUE, produces = {IMAGE_PNG_VALUE, APPLICATION_PROBLEM_JSON_VALUE})
+    public ResponseEntity<?> renderHtml(@RequestBody RenderingParams renderingParams, HttpServletRequest httpServletRequest) {
+        log.info("New request 'Render HTML' has been received...");
+
+        try {
+            // render and return web content
+            BufferedImage bufferedImage = renderService.renderWebContent(renderingParams);
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "png", bos);
+            return Responses.createOkResponse(bos.toByteArray(), IMAGE_PNG_VALUE);
+
+        } catch (Exception ex) {
+
+            return Responses.createBadRequestResponse(httpServletRequest, ex);
+        }
     }
 }
