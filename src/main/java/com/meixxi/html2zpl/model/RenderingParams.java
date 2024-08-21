@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 public class RenderingParams {
 
     private final String url;
+    private final String dataBase64;
     private final int widthPts;
     private final int heightPts;
 
@@ -18,12 +19,17 @@ public class RenderingParams {
      */
     private RenderingParams(Builder builder) {
         this.url = builder.url;
+        this.dataBase64 = builder.dataBase64;
         this.widthPts = builder.widthPts;
         this.heightPts = builder.heightPts;
     }
 
     public String getUrl() {
         return url;
+    }
+
+    public String getDataBase64() {
+        return dataBase64;
     }
 
     public int getWidthPts() {
@@ -40,6 +46,7 @@ public class RenderingParams {
     public static class Builder{
 
         private String url;
+        private String dataBase64;
         private int widthPts;
         private int heightPts;
 
@@ -48,6 +55,11 @@ public class RenderingParams {
 
         public Builder withUrl(String url) {
             this.url = url;
+            return this;
+        }
+
+        public Builder withDataBase64(String dataBase64) {
+            this.dataBase64 = dataBase64;
             return this;
         }
 

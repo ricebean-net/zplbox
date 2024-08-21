@@ -3,7 +3,7 @@ info:
   title: HTML 2 ZPL
   description: |-
     Conversion of web content into ZPL.
-  version: 0.0.1
+  version: 1.0.0
 servers:
   - url: http://localhost:8080/
 tags:
@@ -74,11 +74,16 @@ components:
   schemas:
     RenderingParams:
       type: object
+      required: [widthPts, heightPts]
       properties:
         url:
           type: string
           description: The url of the web content to be rendered.
           example: http://localhost:8080/labels/test-label-1.html
+        dataBase64:
+          type: string
+          description: The Base64 encoded html file.
+          example: PCFkb2N0eXBlIGh0bWw+CjxodG1sIGxhbmc...
         widthPts:
           type: integer
           description: The target rendered width of the ZPL label in points.
