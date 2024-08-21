@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Base64;
 import java.util.UUID;
 
 @Service
@@ -21,6 +22,23 @@ public class RenderServiceImpl implements RenderService {
 
     @Override
     public BufferedImage renderWebContent(RenderingParams renderingParams) throws Exception {
+
+        // check inputs
+        final Path pathSourceHtml;
+        final String url;
+
+        if(renderingParams.getUrl() != null) {
+            pathSourceHtml = null;
+            url = renderingParams.getUrl();
+
+        } else if(renderingParams.getUrl() == null && renderingParams.getDataBase64() != null) {
+            pathSourceHtml = Files.createTempFile("html2zpl-" + UUID.randomUUID(), ".html");
+            url = pathSourceHtml.toString();
+            Files.write(pathSourceHtml, Base64.getDecoder().decode(renderingParams.getDataBase64()));
+
+        } else {
+            throw new IllegalArgumentException("URL or DataBAse64 must be provided.");
+        }
 
         // create temp file
         Path pathRenderedPng = Files.createTempFile("html2zpl-" + UUID.randomUUID(), ".png");
@@ -33,15 +51,29 @@ public class RenderServiceImpl implements RenderService {
                 "--timeout=5000",
                 String.format("--window-size=%d,%d", renderingParams.getWidthPts(), renderingParams.getHeightPts()),
                 String.format("--screenshot=%s", pathRenderedPng),
-                renderingParams.getUrl()
+                url
         } ;
 
-        // execute command
-        executeCommand(command);
+        BufferedImage bufferedImage;
 
-        // cache image and remove temp file
-        BufferedImage bufferedImage = ImageIO.read(pathRenderedPng.toFile());
-        Files.delete(pathRenderedPng);
+        try {
+            // execute command
+            executeCommand(command);
+
+            // cache image
+            bufferedImage = ImageIO.read(pathRenderedPng.toFile());
+
+        } catch (Exception ex) {
+            throw new Exception();
+
+        } finally {
+            // clean up
+            Files.delete(pathRenderedPng);
+
+            if(pathSourceHtml != null) {
+                Files.delete(pathSourceHtml);
+            }
+        }
 
         // return rendered image
         return bufferedImage;
