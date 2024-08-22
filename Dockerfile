@@ -21,7 +21,7 @@ RUN rm /work/app/build/libs/*-plain.jar \
 
 
 # build JRE
-FROM java-build as jre-build
+FROM java-build AS jre-build
 
 RUN $JAVA_HOME/bin/jlink \
          --add-modules ALL-MODULE-PATH \
@@ -49,7 +49,7 @@ ENV TZ=CET
 RUN apk add chromium
 
 ENV JAVA_HOME=/opt/java/openjdk
-ENV PATH "${JAVA_HOME}/bin:${PATH}"
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
 ENV JAVA_TOOL_OPTIONS="-XX:-TieredCompilation"
 
 COPY --from=jre-build --chown=meixxi:meixxi ["/work/jre", "$JAVA_HOME"]

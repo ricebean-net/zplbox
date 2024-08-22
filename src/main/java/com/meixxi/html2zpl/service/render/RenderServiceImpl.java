@@ -1,6 +1,5 @@
 package com.meixxi.html2zpl.service.render;
 
-import com.meixxi.html2zpl.controller.v1.Html2ZplController;
 import com.meixxi.html2zpl.model.RenderingParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,8 +46,12 @@ public class RenderServiceImpl implements RenderService {
         String[] command = new String[]{
                 "chromium-browser",
                 "--headless",
+                "--disable-gpu",
                 "--no-sandbox",
-                "--timeout=5000",
+                "--virtual-time-budget=10000",
+                "--run-all-compositor-stages-before-draw",
+                "--hide-scrollbars",
+                "--disable-software-rasterizer",
                 String.format("--window-size=%d,%d", renderingParams.getWidthPts(), renderingParams.getHeightPts()),
                 String.format("--screenshot=%s", pathRenderedPng),
                 url
