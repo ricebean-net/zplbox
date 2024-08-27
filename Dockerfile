@@ -17,7 +17,7 @@ ARG VERSION=0.0.0
 RUN ./gradlew -i build -PprojectVersion=${VERSION} --no-daemon
 
 RUN rm /work/app/build/libs/*-plain.jar \
-    && cp /work/app/build/libs/*.jar /work/app/build/libs/html2zpl.jar
+    && cp /work/app/build/libs/*.jar /work/app/build/libs/zplbox.jar
 
 
 # build JRE
@@ -53,8 +53,8 @@ ENV PATH="${JAVA_HOME}/bin:${PATH}"
 ENV JAVA_TOOL_OPTIONS="-XX:-TieredCompilation"
 
 COPY --from=jre-build --chown=meixxi:meixxi ["/work/jre", "$JAVA_HOME"]
-COPY --from=java-build --chown=meixxi:meixxi ["/work/app/build/libs/html2zpl.jar", "/app/html2zpl.jar"]
+COPY --from=java-build --chown=meixxi:meixxi ["/work/app/build/libs/zplbox.jar", "/app/zplbox.jar"]
 
-ENTRYPOINT [ "java", "-jar", "/app/html2zpl.jar"]
+ENTRYPOINT [ "java", "-jar", "/app/zplbox.jar"]
 
 EXPOSE 8080

@@ -1,14 +1,16 @@
 openapi: 3.0.3
 info:
-  title: HTML 2 ZPL
+  title: ZplBox
   description: |-
-    Conversion of web content into ZPL.
+    Conversion of content into ZPL.
   version: 1.0.0
 servers:
   - url: http://localhost:8080/
 tags:
   - name: html2zpl
     description: Conversion of HTML based web content to ZPL.
+  - name: pdf2zpl
+    description: Conversion of PDF Documents to ZPL.
   - name: System
     description: System Endpoint.
 paths:
@@ -46,6 +48,22 @@ paths:
                 schema: 
                   type: string
                   format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /v1/pdf2zpl:
+    post:
+      tags:
+        - pdf2zpl
+      summary: Conversion of PDF Documents to ZPL.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PdfRenderingParams'
+      responses:
+        '200':
+          $ref: "#/components/responses/ZplLabelResponse"
         '400':
           $ref: '#/components/responses/BadRequest'
 
@@ -113,6 +131,23 @@ components:
           type: integer
           description: The target rendered width of the ZPL label in points.
           example: 800
+
+    PdfRenderingParams:
+      type: object
+      required: [dotsPerInch]
+      properties:
+        url:
+          type: string
+          description: The url of the web content to be rendered (conditional). If set, dataBase64 SHALL be undefined.
+          example: http://localhost:8080/labels/test-label-1.html
+        dataBase64:
+          type: string
+          description: The Base64 encoded html file (conditional). If set, url SHALL be undefined.
+          example: PCFkb2N0eXBlIGh0bWw+CjxodG1sIGxhbmc...
+        heightPts:
+          type: integer
+          description: Resolution in dots per inch (dpi).
+          example: 203
 
     ProblemDetails:
       type: object
