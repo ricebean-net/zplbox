@@ -3,7 +3,7 @@
 
 ## Features
 * Conversion HTML to ZPL
-* *Conversion PDF to ZPL (TBD)*
+* Conversion PDF to ZPL
 
 ZplBox is based on an embedded Chromium, rendering your web content as PNG. So, you can leverage the full web technology stack to create your labels.
 You can submit your web content via a file or by referencing it using an external URL (preferred).
