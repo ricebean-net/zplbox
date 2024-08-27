@@ -1,6 +1,6 @@
 package com.meixxi.html2zpl.service.render;
 
-import com.meixxi.html2zpl.model.RenderingParams;
+import com.meixxi.html2zpl.controller.v1.model.HtmlRenderingParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class RenderServiceImpl implements RenderService {
     private static final Logger log = LoggerFactory.getLogger(RenderServiceImpl.class);
 
     @Override
-    public BufferedImage renderWebContent(RenderingParams renderingParams) throws Exception {
+    public BufferedImage renderWebContent(HtmlRenderingParams renderingParams) throws Exception {
 
         // check inputs
         final Path pathSourceHtml;
