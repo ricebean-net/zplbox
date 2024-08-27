@@ -39,7 +39,7 @@ Copy the generated ZPL Code to https://labelary.com/viewer.html to get a visual 
 ## Test Labels
 The ZplBox project comes with a set of pre-installed example labels.
 
-### HTML: UPS Shipping Label Example
+### UPS Shipping Label Example (HTML)
 Reference: https://www.ups.com/assets/resources/webcontent/en_GB/CustomLabelHowTo.pdf
 
 Target Label Size : 4 x 8 inches  
@@ -61,7 +61,8 @@ curl --request POST \
 ![Label Design UPS](./screens/label-design-ups.png)
 *Google Chrome: Developer tools -> Custom Viewport Size (here: 812 x 1624 pixels - scale: 50 %)*
 
-### PDF: A PDF Label
+### Example Shipping Label (PDF)
+Source: https://doc.phomemo.com/Labels-Sample.pdf
 
 Target Label Size : 4 x 6 inches  
 Resolution Printer: 8dpmm (203 dpi)  
@@ -94,3 +95,6 @@ curl --request POST \
      --header 'content-type: application/json' \
      --data '{ "dataBase64":"'$(base64 -w 0 my-file.html)'", "widthPts":812, "heightPts":1624 }'
 ```
+
+## Logo
+![ZplBox Logo](./src/main/resources//static/assets/zplbox-logo.png)
