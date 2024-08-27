@@ -33,28 +33,50 @@ curl --request POST \
 ```
 
 ### 3. Verify the output
-Copy the generated ZPL Code to https://labelary.com/viewer.html to get a visual representation.
-
+Copy the generated ZPL Code to https://labelary.com/viewer.html to get a visual representation.  
+**NOTE: Adjust label size to 4 x 8 inches for this label on https://labelary.com/viewer.html**
 
 ## Test Labels
 The ZplBox project comes with a set of pre-installed example labels.
 
-### UPS Shipping Label Example
+### HTML: UPS Shipping Label Example
 Reference: https://www.ups.com/assets/resources/webcontent/en_GB/CustomLabelHowTo.pdf
 
 Target Label Size : 4 x 8 inches  
 Resolution Printer: 8dpmm (203 dpi)  
 Size Label in Pixes: 812 x 1624	 pixels
 
-Project Path: [src/main/resources/static/labels/ups-example](src/main/resources/static/labels/ups-example.html)  
+Project Path: [src/main/resources/static/labels/ups-example.html](src/main/resources/static/labels/ups-example.html)  
 Container URL: http://localhost:8080/labels/ups-example.html
+
+```bash
+curl --request POST \
+     --url http://localhost:8080/v1/html2zpl \
+     --header 'content-type: application/json' \
+     --data '{ "url":"http://localhost:8080/labels/ups-example.html", "widthPts":812, "heightPts":1624 }'
+```
 
 **NOTE: Adjust label size to 4 x 8 inches for this label on https://labelary.com/viewer.html**
 
 ![Label Design UPS](./screens/label-design-ups.png)
 *Google Chrome: Developer tools -> Custom Viewport Size (here: 812 x 1624 pixels - scale: 50 %)*
 
+### PDF: A PDF Label
 
+Target Label Size : 4 x 6 inches  
+Resolution Printer: 8dpmm (203 dpi)  
+
+Project Path: [src/main/resources/static/labels/test-label-2.pdf](src/main/resources/static/labels/test-label-2.pdf)  
+Container URL: http://localhost:8080/labels/test-label-2.pdf
+
+```bash
+curl --request POST \
+     --url http://localhost:8080/v1/pdf2zpl \
+     --header 'content-type: application/json' \
+     --data '{ "url":"http://localhost:8080/labels/test-label-2.pdf", "dotsPerInch":203 }'
+```
+
+**NOTE: Adjust label size to 4 x 6 inches for this label on https://labelary.com/viewer.html**
 
 ## API Reference:
 You can find the swagger.yml file in the project root. The visual representation of the file you can
@@ -67,8 +89,8 @@ find **[here](https://petstore.swagger.io/?url=https://raw.githubusercontent.com
 You can submit a file to ZplBox by encoding it to base64 as below:
 
 ```bash
-curl --request POST      
-     --url http://localhost:8080/v1/html2zpl
-     --header 'content-type: application/json' 
+curl --request POST \
+     --url http://localhost:8080/v1/html2zpl \
+     --header 'content-type: application/json' \
      --data '{ "dataBase64":"'$(base64 -w 0 my-file.html)'", "widthPts":812, "heightPts":1624 }'
 ```
