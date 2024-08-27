@@ -19,7 +19,7 @@ This approach will allow you new possibilities, which are nearly impossible with
 
 
 ## Quick Start
-### 1. Start html2zpl as Docker container:
+### 1. Start ZplBox as Docker container:
 ```bash
 docker run -p 8080:8080 ghcr.io/meixxi/zplbox:latest
 ```
