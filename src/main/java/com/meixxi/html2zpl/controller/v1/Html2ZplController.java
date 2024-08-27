@@ -1,7 +1,7 @@
 package com.meixxi.html2zpl.controller.v1;
 
 import com.meixxi.html2zpl.controller.util.Responses;
-import com.meixxi.html2zpl.model.RenderingParams;
+import com.meixxi.html2zpl.controller.v1.model.HtmlRenderingParams;
 import com.meixxi.html2zpl.service.image.ImageService;
 import com.meixxi.html2zpl.service.render.RenderService;
 import com.meixxi.html2zpl.service.zpl.ZplService;
@@ -37,7 +37,7 @@ public class Html2ZplController {
     private ZplService zplService;
 
     @PostMapping(value = "", consumes = APPLICATION_JSON_VALUE, produces = {TEXT_PLAIN_VALUE, APPLICATION_PROBLEM_JSON_VALUE})
-    public ResponseEntity<?> createZplLabel(@RequestBody RenderingParams renderingParams, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<?> createZplLabel(@RequestBody HtmlRenderingParams renderingParams, HttpServletRequest httpServletRequest) {
         log.info("New request 'Create ZPL Label' has been received...");
 
        try {
@@ -61,7 +61,7 @@ public class Html2ZplController {
     }
 
     @PostMapping(value = "/render", consumes = APPLICATION_JSON_VALUE, produces = {IMAGE_PNG_VALUE, APPLICATION_PROBLEM_JSON_VALUE})
-    public ResponseEntity<?> renderHtml(@RequestBody RenderingParams renderingParams, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<?> renderHtml(@RequestBody HtmlRenderingParams renderingParams, HttpServletRequest httpServletRequest) {
         log.info("New request 'Render HTML' has been received...");
 
         try {

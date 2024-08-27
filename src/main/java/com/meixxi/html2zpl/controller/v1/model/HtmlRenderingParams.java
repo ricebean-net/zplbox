@@ -1,12 +1,12 @@
-package com.meixxi.html2zpl.model;
+package com.meixxi.html2zpl.controller.v1.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * RenderingParams model object.
  */
-@JsonDeserialize(builder = RenderingParams.Builder.class)
-public class RenderingParams {
+@JsonDeserialize(builder = HtmlRenderingParams.Builder.class)
+public class HtmlRenderingParams {
 
     private final String url;
     private final String dataBase64;
@@ -17,7 +17,7 @@ public class RenderingParams {
      * Private constructor.
      * @param builder Builder object.
      */
-    private RenderingParams(Builder builder) {
+    private HtmlRenderingParams(Builder builder) {
         this.url = builder.url;
         this.dataBase64 = builder.dataBase64;
         this.widthPts = builder.widthPts;
@@ -73,8 +73,8 @@ public class RenderingParams {
             return this;
         }
 
-        public RenderingParams build() {
-            return new RenderingParams(this);
+        public HtmlRenderingParams build() {
+            return new HtmlRenderingParams(this);
         }
     }
 }

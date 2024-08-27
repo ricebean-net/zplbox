@@ -1,6 +1,6 @@
 package com.meixxi.html2zpl.service.render;
 
-import com.meixxi.html2zpl.model.RenderingParams;
+import com.meixxi.html2zpl.controller.v1.model.HtmlRenderingParams;
 
 import java.awt.image.BufferedImage;
 
@@ -11,5 +11,5 @@ public interface RenderService {
      * @param renderingParams The rendering params.
      * @return The rendered content as buffered image.
      */
-    BufferedImage renderWebContent(RenderingParams renderingParams) throws Exception;
+    BufferedImage renderWebContent(HtmlRenderingParams renderingParams) throws Exception;
 }
