@@ -95,6 +95,3 @@ curl --request POST \
      --header 'content-type: application/json' \
      --data '{ "dataBase64":"'$(base64 -w 0 my-file.html)'", "widthPts":812, "heightPts":1624 }'
 ```
-
-## Logo
-![ZplBox Logo](./src/main/resources//static/assets/zplbox-logo.png)
