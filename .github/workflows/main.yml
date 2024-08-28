@@ -1,4 +1,4 @@
-name: Build latest version
+name: Build ZplBox Image
 
 on:
   push:
