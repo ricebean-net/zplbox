@@ -3,7 +3,7 @@ name: Build latest version
 on:
   push:
     branches: [ main ]
-    paths-ignore: ["gh-pages/**"]
+    paths-ignore: ["./README.md"]
   workflow_dispatch:
 
 env:
