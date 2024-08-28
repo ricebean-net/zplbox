@@ -2,8 +2,8 @@ name: Build latest version
 
 on:
   push:
-    branches: [ main ]
-    paths-ignore: ["/README.md", "/_config.yml"]
+    branches: ["main"]
+    paths-ignore: ["**/README.md", "**/_config.yml"]
   workflow_dispatch:
 
 env:
