@@ -3,7 +3,7 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: ["main"]
-    paths: ["**/README.md", "**/_config.yml"]
+    paths: ["gh-pages/**"]
   workflow_dispatch:
 
 permissions:
@@ -28,7 +28,7 @@ jobs:
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
-          source: ./
+          source: ./gh-pages
           destination: ./_site
 
       - name: Upload artifact
