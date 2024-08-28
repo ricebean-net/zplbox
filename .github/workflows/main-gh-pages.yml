@@ -3,7 +3,7 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: ["main"]
-    paths: ["gh-pages/**"]
+    paths: ["gh-pages/**", "**/README.md"]
   workflow_dispatch:
 
 permissions:
@@ -24,6 +24,10 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      - name: Copy README.md to gh-pages
+        run: |-
+          cp README.md ./gh-pages/
 
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
