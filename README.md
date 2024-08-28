@@ -1,4 +1,3 @@
-# ZplBox
 **Use your favorite web framework to design ZPL Labels far more straightforward and sophisticated than native ZPL will ever can do!**
 
 ## Features
