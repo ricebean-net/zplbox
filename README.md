@@ -17,12 +17,12 @@ This approach will allow you new possibilities, which are nearly impossible with
 * ...
 
 
-## Quick Start
-### 1. Start ZplBox as Docker container:
+# Quick Start
+## 1. Start ZplBox as Docker container:
 ```bash
 docker run -p 8080:8080 ghcr.io/meixxi/zplbox:latest
 ```
-### 2. Creation of a test label:
+## 2. Creation of a test label:
 This example reference the test label 'ups-example.html', pre-installed in the docker container. More about test labels you can find below.
 ```bash
 curl --request POST \
@@ -31,7 +31,7 @@ curl --request POST \
      --data '{ "url":"http://localhost:8080/labels/ups-example.html", "widthPts":812, "heightPts":1624 }'
 ```
 
-### 3. Verify the output
+## 3. Verify the output
 Copy the generated ZPL Code to https://labelary.com/viewer.html to get a visual representation.  
 **NOTE: Adjust label size to 4 x 8 inches for this label on https://labelary.com/viewer.html**
 
