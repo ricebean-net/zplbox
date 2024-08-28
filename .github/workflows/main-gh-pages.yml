@@ -3,7 +3,7 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: ["main"]
-    paths: ["**/README.md"]
+    paths: ["gh-pages/**"]
   workflow_dispatch:
 
 permissions:
@@ -30,10 +30,7 @@ jobs:
         with:
           source: ./
           destination: ./_site
-          title: Conversion of HTML/PDF to ZPL 2
-          logo: ./src/main/resources/static/assets/zplbox-logo.png
-          theme: jekyll-theme-minimal
-          
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 
