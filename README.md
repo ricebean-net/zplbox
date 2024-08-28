@@ -12,6 +12,7 @@ This approach will allow you new possibilities, which are nearly impossible with
 * **Text / Typography:** You can use any methods you use in web design.
 * ...
 
+<br/><br/>
 # Quick Start
 ## 1. Start ZplBox as Docker container:
 ```bash
@@ -30,6 +31,7 @@ curl --request POST \
 Copy the generated ZPL Code to https://labelary.com/viewer.html to get a visual representation.  
 **NOTE: Adjust label size to 4 x 8 inches for this label on https://labelary.com/viewer.html**
 
+<br/><br/>
 # Test Labels
 The ZplBox project comes with a set of pre-installed example labels.
 
@@ -73,11 +75,12 @@ curl --request POST \
 
 **NOTE: Adjust label size to 4 x 6 inches for this label on https://labelary.com/viewer.html**
 
+<br/><br/>
 # API Reference
 You can find the swagger.yml file in the project root. The visual representation of the file you can
 find **[here](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/meiXXI/zplbox/main/swagger.yml)**.
 
-
+<br/><br/>
 # Advanced
 ## Post base64 encoded HTML files
 You can submit a file to ZplBox by encoding it to base64 as below:
