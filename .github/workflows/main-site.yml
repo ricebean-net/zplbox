@@ -28,6 +28,11 @@ jobs:
         
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      - name: Generate the sitemap
+        uses: cicirello/generate-sitemap@v1
+        with:
+          path-to-root: './site'
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
