@@ -32,12 +32,12 @@ jobs:
       - name: Generate the sitemap
         uses: cicirello/generate-sitemap@v1
         with:
+          base-url-path: 'https://zplbox.org'
           path-to-root: './site'
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          base-url-path: 'https://zplbox.org'
           path: './site'
           
       - name: Deploy to GitHub Pages
