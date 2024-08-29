@@ -3,7 +3,7 @@ name: Build ZplBox Image
 on:
   push:
     branches: ["main"]
-    paths-ignore: ["**/README.md", "**/_config.yml"]
+    paths-ignore: ["**/README.md", "site/**"]
   workflow_dispatch:
 
 env:
