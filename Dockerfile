@@ -1,3 +1,19 @@
+# build webapp
+FROM node:18 AS webapp-builder
+
+ENV TZ=CET
+
+ARG VERSION=0.0.0
+
+COPY ["src/main/webapp", "/home/node/app"]
+WORKDIR /home/node/app
+
+RUN yarn install
+RUN yarn version --new-version ${VERSION}
+RUN yarn test --watchAll=false --passWithNoTests
+RUN yarn build
+
+
 # compile and test app
 FROM eclipse-temurin:21-alpine AS java-build
 
@@ -9,6 +25,10 @@ ENV TZ=CET
 COPY ["src", "/work/app/src"]
 COPY ["gradle", "/work/app/gradle"]
 COPY ["gradlew", "build.gradle", "settings.gradle", "/work/app/"]
+
+COPY --from=webapp-builder ["/home/node/app/build", "/work/app/src/main/resources/static"]
+
+
 
 WORKDIR /work/app
 
