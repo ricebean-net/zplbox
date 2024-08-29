@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ZplBox</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link href="./index.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <div class="container vh-100 d-flex flex-column">
+
+        <!-- header (small screen) -->
+        <div class="row d-flex d-md-none">
+            <div class="col border-bottom d-flex py-2 mb-2">
+                <img src="./assets/zplbox-logo-h.png" class="me-auto" style="max-height: 50px;" />
+
+                <div class="btn-group">
+                    <button type="button" class="btn py-0" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi-list" style="font-size: 28px;"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#description">Description</a></li>
+                        <li><a class="dropdown-item" href="#quick-start">Quick Start</a></li>
+                        <li><a class="dropdown-item" href="#api-reference">API Reference</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- header (large screen) -->
+        <div class="row d-none d-md-block mt-5">
+            <div class="col">
+
+            </div>
+        </div>
+
+        <!-- main area -->
+        <div class="row flex-fill position-relative">
+            <div class="position-absolute" style="top: 0px; bottom: 0px; left: 0px; right: 0px;">
+
+                <div class="container-fluid h-100 px-0">
+                    <div class="row h-100">
+
+                        <!-- left area (large screen)-->
+                        <div class="col-md-3 border-end border-1 d-none d-md-block pe-4">
+                            <div class="h-100 d-flex flex-column">
+                                <div>
+                                    <img src="./assets/zplbox-logo.png" class="w-75" />
+                                </div>
+
+                                <!-- about -->
+                                <div class="mt-5">
+                                    <p><b>ZplBox converts HTML/PDF to ZPL.</b></p>
+                                    <p>Use your favorite web framework to design ZPL Labels far simpler and more
+                                        sophisticated as native ZPL will ever can do!</p>
+                                </div>
+
+                                <!-- navigation -->
+                                <nav id="navbar" class="flex-column align-items-stretch pe-4 mt-4">
+                                    <nav class="nav nav-pills flex-column">
+                                        <a class="nav-link" href="#description">Description</a>
+                                        <a class="nav-link" href="#quick-start">Quick Start</a>
+                                        <a class="nav-link" href="#api-reference">API Reference</a>
+                                    </nav>
+                                </nav>
+
+                                <!--  -->
+                                <div class="flex-fill">
+
+                                </div>
+
+                                <!-- github refs -->
+                                <div>
+                                    <a class="btn btn-outline-secondary btn-sm" href="https://github.com/meiXXI/zplbox">
+                                        <i class="bi bi-github me-2"></i>
+                                        ZplBox on GitHub
+                                    </a>
+
+                                    <div class="text-secondary my-2">
+                                        <small>ZplBox is maintained by <a
+                                                href="https://github.com/meiXXI">meiXXI</a></small>
+                                    </div>
+
+                                    <div class="text-secondary">
+                                        <small><small>Hosted on GitHub Pages</small></small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- right area (main content) -->
+                        <div class="col-md-9 h-100">
+                            <div class="mh-100 overflow-auto pe-2" data-bs-spy="scroll" data-bs-target="#navbar"
+                                data-bs-smooth-scroll="true" tabindex="0">
+
+                                <!-- description -->
+                                <div id="description">
+                                    <h1>Description</h1>
+                                    <p>
+                                        ZplBox is based on an embedded Chromium, rendering your web content as PNG. So,
+                                        you
+                                        can leverage the full web technology stack to create your labels. You can submit
+                                        your web content via a file or by referencing it using an external
+                                        URL (preferred).
+                                    </p>
+                                    <p>
+                                        The conversion of PDF documents to PNG is based on <a
+                                            href="https://pdfbox.apache.org/">Apache PDFBox</a>
+                                    </p>
+                                    <p>
+                                        Once rendered as PNG, your content will be converted into a monochrome image and
+                                        encoded in a ZPL native ASCII hexadecimal string.
+                                        The final ZPL label consists of only the ASCII hexadecimal string embedded in a
+                                        Graphic Field (^GF) and will sent back in the response.
+                                    </p>
+
+                                    <p>
+                                        This approach will allow you new possibilities, which are nearly impossible with
+                                        native ZPL, including:
+                                    </p>
+                                    <ul class="ms-5">
+                                        <li>
+                                            <b>Images:</b> 
+                                            Embed and scale images flexibly using default web technologies.
+                                        </li>
+                                        <li>
+                                            <b>Fonts:</b>
+                                            You can use any fonts supported by web frameworks.
+                                        </li>
+                                        <li>
+                                            <b>Text / Typography:</b>
+                                            You can use any methods you use in web design.
+                                        </li>
+                                        <li>
+                                            ...
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- quick start -->
+                                <div id="quick-start" class="mt-5">
+                                    <h1>Quick Start</h1>
+                                    <p>TBD</p>
+                                </div>
+
+                                <!-- api reference -->
+                                <div id="api-reference" class="mt-5">
+                                    <h1>API Reference</h1>
+                                    <iframe id="responsive-iframe" src="api-reference.html"
+                                        style="width: 100%; height: 3000px; border: none;" scrolling="auto"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- footer (small screen) -->
+        <div class="row bg-dark text-white d-md-none">
+            <div class="col py-2">
+                <small>sdfasdf</small>
+            </div>
+        </div>
+
+        <!-- fotter (large screen) -->
+        <div class="row d-none d-md-block mt-5">
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
