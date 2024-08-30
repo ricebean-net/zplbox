@@ -1,5 +1,6 @@
 import Footer from "./common/Footer";
 import Header from "./common/Header";
+import Main from "./main/Main";
 
 function App() {
 
@@ -7,13 +8,13 @@ function App() {
     return (
         <div className="d-flex flex-column vh-100 bg-100">
             <div className="">
-               <Header />
+                <Header />
             </div>
             <div className="flex-fill">
-                    
+                <Main />
             </div>
             <div>
-               <Footer />
+                <Footer />
             </div>
         </div>
 
