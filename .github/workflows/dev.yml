@@ -1,4 +1,4 @@
-name: Build ZplBox Image
+name: Build ZplBox Image DEV
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: meixxi/zplbox
-  VERSION: 1.0.x-dev
+  VERSION: 1.0.0-DEV
 
 jobs:
   deploy-image:
