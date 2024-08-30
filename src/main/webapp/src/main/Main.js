@@ -1,7 +1,21 @@
-import { useState } from "react";
-import {saveAs} from "file-saver"
+import { useEffect, useState } from "react";
+import { saveAs } from "file-saver"
+import Toast from "./Toast";
+
 
 function Main() {
+
+
+    // event handling (toasts)
+    const [event, setEvent] = useState(undefined);
+
+    const showEvent = (title, message, severity) => {
+        setEvent({
+            title: title,
+            message: message,
+            severity: severity
+        })
+    }
 
 
     // label url handling
@@ -14,24 +28,51 @@ function Main() {
     ]
 
 
+    // construct request payload
+    const [payload, setPayload] = useState(undefined);
+
+    useEffect(() => {
+        setPayload({
+            url: urlLabel,
+            widthPts: 812,
+            heightPts: 1624
+        });
+
+    }, [urlLabel]);
+
+
+    // construct curl request
+    const [curlCommand, setCurlCommand] = useState(undefined);
+
+    useEffect(() => {
+
+        const cmdLines = [
+            `curl --request POST`,
+            `     --url ${baseUrl}/v1/html2zpl`,
+            `     --header 'content-type: application/json'`,
+            `     --data '${JSON.stringify(payload)}'`
+        ]
+
+
+        setCurlCommand(cmdLines.join(" \\ \n"));
+
+    }, [payload])
+
+
     // zpl label generation
+    const [zplGenerationActive, setZplGenerationActive] = useState(false);
     const [zplData, setZplData] = useState("")
 
     const generateZplLabel = () => {
 
-        // create data
-        const data = {
-            url: urlLabel,
-            widthPts: 812,
-            heightPts: 1624
-        }
+        setZplGenerationActive(true);
 
         fetch('/v1/html2zpl', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(payload)
         })
             .then(response => {
                 if (!response.ok) {
@@ -41,22 +82,25 @@ function Main() {
             })
             .then(zplData => {
                 setZplData(zplData);
+                showEvent("ZPL Generation Successful.", "Your ZPL label has been generated successfully.", "success")
             })
             .catch(error => {
                 console.error('Error:', error);
-            });
+                showEvent("Error ZPL Generation.", error.message, "danger")
+            })
+            .finally(() => setZplGenerationActive(false));
     }
 
 
     // zpl export 
     const copyZplToClipboard = () => {
         navigator.clipboard.writeText(zplData)
-            .then(() => console.log("Copy to clipboard successful"))
-            .catch(() => console.log("Error copying to clipboard"))
+            .then(() => showEvent("Copy to clipboard successful", "Your ZPL label has been copied successfully to the clipboard.", "success"))
+            .catch(() => showEvent("Error copy to clipboard", "Error copying to clipboard.", "danger"));
     }
 
     const saveZplAsFile = () => {
-        var blob = new Blob([zplData], {type: "text/plain;charset=utf-8"});
+        var blob = new Blob([zplData], { type: "text/plain;charset=utf-8" });
         saveAs(blob, "hello world.zpl.txt");
     }
 
@@ -94,14 +138,30 @@ function Main() {
             {/* create label */}
             <div className="row mt-2">
                 <div className="col-2"></div>
-                <div className="col-4 text-end"><button type="button" className="btn btn-outline-primary" onClick={generateZplLabel}>Create ZPL Label</button></div>
+                <div className="col-4 text-end">
+                    <button type="button" className="btn btn-outline-primary" onClick={generateZplLabel} disabled={zplGenerationActive}>
+                        <div className={`spinner-border spinner-border-sm me-2 ${zplGenerationActive === false && 'd-none'}`} role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                        Create ZPL Label</button>
+                </div>
                 <div className="col-6"></div>
+            </div>
+
+            {/* technical connectiviy */}
+            <div className="row mt-5">
+                <div className="col-6">
+                    <pre>{JSON.stringify(payload, null, 2)}</pre>
+                </div>
+                <div className="col-6">
+                    <pre>{curlCommand}</pre>
+                </div>
             </div>
 
             {/* zpl data */}
             <div className="row mt-5">
                 <div className="col-12">
-                    <textarea className="form-control form-control-sm font-monospace" rows="10" value={zplData} readOnly={true}></textarea>
+                    <pre>{zplData}</pre>
                 </div>
             </div>
             <div className="row mt-2">
@@ -111,6 +171,9 @@ function Main() {
                     <button type="button" className="btn btn-outline-secondary btn-sm" onClick={saveZplAsFile}><i className="bi bi-cloud-download me-2"></i>Download</button>
                 </div>
             </div>
+
+            {/* toasts */}
+            <Toast event={event} onResetEvent={() => setEvent(undefined)} />
         </div>
     );
 }
