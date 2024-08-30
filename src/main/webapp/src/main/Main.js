@@ -100,15 +100,13 @@ function Main() {
 
             {/* zpl data */}
             <div className="row mt-5">
-                <div className="col-2">ZPL Data:</div>
-                <div className="col-10">
+                <div className="col-12">
                     <textarea className="form-control form-control-sm font-monospace" rows="10" value={zplData} readOnly={true}></textarea>
                 </div>
             </div>
             <div className="row mt-2">
-                <div className="col-2"></div>
-                <div className="col-5"></div>
-                <div className="col-5 text-end">
+                <div className="col-6">{zplData && new Blob([zplData]).size + ' bytes'} </div>
+                <div className="col-6 text-end">
                     <button type="button" className="btn btn-outline-secondary btn-sm me-3" onClick={copyZplToClipboard}><i className="bi bi-copy me-2"></i>Copy to Clipboard</button>
                     <button type="button" className="btn btn-outline-secondary btn-sm" onClick={saveZplAsFile}><i className="bi bi-cloud-download me-2"></i>Download</button>
                 </div>
