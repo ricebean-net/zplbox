@@ -35,11 +35,11 @@ jobs:
       - name: Build Docker Image
         run: |-
           docker build \
-            -t "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:dev" \
+            -t "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:edge" \
             --build-arg VERSION=${{env.VERSION}} \
             --build-arg COMMIT_SHA=${GITHUB_SHA} \
             .
 
       - name: Publish Docker Image to github
         run: |
-          docker push "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:dev"
+          docker push "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:edge"
