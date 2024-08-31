@@ -113,7 +113,7 @@ function Main() {
 
         setZplGenerationActive(true);
 
-        fetch('http://localhost:8080/v1/' + endpoint, {
+        fetch('/v1/' + endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
