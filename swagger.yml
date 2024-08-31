@@ -144,7 +144,7 @@ components:
           type: string
           description: The Base64 encoded html file (conditional). If set, url SHALL be undefined.
           example: PCFkb2N0eXBlIGh0bWw+CjxodG1sIGxhbmc...
-        heightPts:
+        dotsPerInch:
           type: integer
           description: Resolution in dots per inch (dpi).
           example: 203
