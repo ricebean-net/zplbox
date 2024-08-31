@@ -54,7 +54,7 @@ function LabelSource({ onLabelUpdate }) {
         const reader = new FileReader();
         reader.onloadend = () => {
             onLabelUpdate({
-                dataBase64: reader.result,
+                dataBase64: reader.result.split(',')[1],
                 mimeType: fileLabel.type
             });
         };
@@ -123,7 +123,7 @@ function LabelSource({ onLabelUpdate }) {
                         <div className="align-self-center">
                             {
                                 refLabelValidation.status === 200
-                                    ? <div><small className="text-success"><i className="bi bi-check-circle-fill me-2"></i>{refLabelValidation.message}</small></div>
+                                    ? <div><small className="text-success me-4"><i className="bi bi-check-circle-fill me-2"></i>{refLabelValidation.message}</small> <small><i><a href={refLabel} target="_blank">[Open in new tab]</a></i></small></div>
                                     : <div><small className="text-danger"><i className="bi bi-x-circle-fill me-2"></i>{refLabelValidation.message}</small></div>
                             }
                         </div>
