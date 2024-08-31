@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { saveAs } from "file-saver"
 import Toast from "./Toast";
 import LabelSource from "./modules/LabelSource";
+import ConversionConfig from "./modules/ConversionConfig";
+import Dimensions from './../common/util/Dimensions';
+
 
 
 function Main() {
@@ -21,26 +24,32 @@ function Main() {
 
     // payload construction
     const [labelSource, setLabelSource] = useState(undefined);
+    const [conversionConfig, setConversionConfig] = useState(undefined);
     const [payload, setPayload] = useState(undefined);
 
     useEffect(() => {
-        if (labelSource === undefined) {
+        if (labelSource === undefined || conversionConfig === undefined) {
             setPayload(undefined)
             return;
         }
 
-        const newPayload = { ...payload };
+        const payload = {};
 
+        // define source
         if (labelSource === undefined) {
-            newPayload.dataBase64 = undefined;
-            newPayload.url = undefined;
+            payload.dataBase64 = undefined;
+            payload.url = undefined;
         } else {
-            newPayload.dataBase64 = labelSource.dataBase64;
-            newPayload.url = labelSource.url;
+            payload.dataBase64 = labelSource.dataBase64;
+            payload.url = labelSource.url;
         }
 
-        setPayload(newPayload);
-    }, [labelSource])
+        // assign config
+        Object.assign(payload, conversionConfig)
+
+        // update state
+        setPayload(payload);
+    }, [labelSource, conversionConfig])
 
 
     // construct curl request
@@ -66,82 +75,55 @@ function Main() {
     }, [payload])
 
 
-    // // label url handling
-    // const [urlLabel, setUrlLabel] = useState("");
+    // zpl label generation
+    const [zplGenerationActive, setZplGenerationActive] = useState(false);
+    const [zplData, setZplData] = useState("")
 
-    // const baseUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}`;
-    // const urlTestLabels = [
-    //     { descriptiveName: "UPS Example (4 x 8 inches)", url: baseUrl + "/labels/ups-example.html" },
-    //     { descriptiveName: "Generic Example (4 x 6 inches)", url: baseUrl + "/xxx.html" }
-    // ]
+    const generateZplLabel = () => {
 
+        setZplGenerationActive(true);
 
-    // // construct request payload
-    // const [payload, setPayload] = useState(undefined);
+        fetch('/v1/html2zpl', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(zplData => {
+                setZplData(zplData);
+                showEvent("ZPL Generation Successful.", "Your ZPL label has been generated successfully.", "success")
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showEvent("Error ZPL Generation.", error.message, "danger")
+            })
+            .finally(() => setZplGenerationActive(false));
+    }
 
-    // useEffect(() => {
-    //     setPayload({
-    //         url: urlLabel,
-    //         widthPts: 812,
-    //         heightPts: 1624
-    //     });
+    const copyZplToClipboard = () => {
+        navigator.clipboard.writeText(zplData)
+            .then(() => showEvent("Copy to clipboard successful", "Your ZPL label has been copied successfully to the clipboard.", "success"))
+            .catch(() => showEvent("Error copy to clipboard", "Error copying to clipboard.", "danger"));
+    }
 
-    // }, [urlLabel]);
-
-
-
-
-
-    // // zpl label generation
-    // const [zplGenerationActive, setZplGenerationActive] = useState(false);
-    // const [zplData, setZplData] = useState("")
-
-    // const generateZplLabel = () => {
-
-    //     setZplGenerationActive(true);
-
-    //     fetch('/v1/html2zpl', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(payload)
-    //     })
-    //         .then(response => {
-    //             if (!response.ok) {
-    //                 throw new Error('Network response was not ok');
-    //             }
-    //             return response.text();
-    //         })
-    //         .then(zplData => {
-    //             setZplData(zplData);
-    //             showEvent("ZPL Generation Successful.", "Your ZPL label has been generated successfully.", "success")
-    //         })
-    //         .catch(error => {
-    //             console.error('Error:', error);
-    //             showEvent("Error ZPL Generation.", error.message, "danger")
-    //         })
-    //         .finally(() => setZplGenerationActive(false));
-    // }
-
-
-    // // zpl export 
-    // const copyZplToClipboard = () => {
-    //     navigator.clipboard.writeText(zplData)
-    //         .then(() => showEvent("Copy to clipboard successful", "Your ZPL label has been copied successfully to the clipboard.", "success"))
-    //         .catch(() => showEvent("Error copy to clipboard", "Error copying to clipboard.", "danger"));
-    // }
-
-    // const saveZplAsFile = () => {
-    //     var blob = new Blob([zplData], { type: "text/plain;charset=utf-8" });
-    //     saveAs(blob, "hello world.zpl.txt");
-    // }
+    const saveZplAsFile = () => {
+        var blob = new Blob([zplData], { type: "text/plain;charset=utf-8" });
+        saveAs(blob, "hello world.zpl.txt");
+    }
 
 
     // return final output
     return (
         <div className="container mt-4">
 
+            {/* label source */}
             <div className="row mb-2">
                 <div className="col">
                     <h2>1. Reference or upload your label</h2>
@@ -150,23 +132,16 @@ function Main() {
 
             <LabelSource onLabelUpdate={setLabelSource} />
 
-
-
-            {/* create label */}
-            {/* <div className="row mt-2">
-                <div className="col-2"></div>
-                <div className="col-4 text-end">
-                    <button type="button" className="btn btn-outline-primary" onClick={generateZplLabel} disabled={zplGenerationActive}>
-                        <div className={`spinner-border spinner-border-sm me-2 ${zplGenerationActive === false && 'd-none'}`} role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
-                        Create ZPL Label</button>
-                </div>
-                <div className="col-6"></div>
-            </div> */}
-
-            {/* technical connectiviy */}
+            {/* label source */}
             <div className="row mt-5">
+                <div className="col">
+                    <h2>2. Configure ZPL conversion</h2>
+                </div>
+            </div>
+
+            <ConversionConfig onConfigUpdate={setConversionConfig} />
+
+            <div className="row mt-3">
                 <div className="col-6">
                     <small>JSON Payload:</small>
                     <textarea className="form-control form-control-sm font-monospace bg-body-tertiary" rows={5} value={payload === undefined ? "" : JSON.stringify(payload, null, 2)} readOnly={true} style={{ resize: 'none' }} />
@@ -177,19 +152,33 @@ function Main() {
                 </div>
             </div>
 
-            {/* zpl data */}
-            {/* <div className="row mt-5">
+            {/* generate label */}
+            <div className="row mt-5">
+                <div className="col-6">
+                    <h2>3. Generate ZPL Label</h2>
+                </div>
+                <div className="col-6 text-end">
+                    <button type="button" className="btn btn-outline-primary" onClick={generateZplLabel} disabled={zplGenerationActive}>
+                        <div className={`spinner-border spinner-border-sm me-2 ${zplGenerationActive === false && 'd-none'}`} role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                        Create ZPL Label
+                    </button>
+                </div>
+            </div>
+            <div className="row">
                 <div className="col-12">
-                    <pre>{zplData}</pre>
+                    <small>ZPL data:</small>
+                    <textarea className="form-control form-control-sm font-monospace bg-body-tertiary" rows={5} value={zplData === undefined ? "" : zplData} readOnly={true} style={{ resize: 'none' }} />
                 </div>
             </div>
             <div className="row mt-2">
-                <div className="col-6">{zplData && new Blob([zplData]).size + ' bytes'} </div>
+                <div className="col-6">{zplData && Dimensions.bytes2readable(new Blob([zplData]).size)}</div>
                 <div className="col-6 text-end">
                     <button type="button" className="btn btn-outline-secondary btn-sm me-3" onClick={copyZplToClipboard}><i className="bi bi-copy me-2"></i>Copy to Clipboard</button>
                     <button type="button" className="btn btn-outline-secondary btn-sm" onClick={saveZplAsFile}><i className="bi bi-cloud-download me-2"></i>Download</button>
                 </div>
-            </div> */}
+            </div>
 
             {/* toasts */}
             <Toast event={event} onResetEvent={() => setEvent(undefined)} />

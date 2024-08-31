@@ -83,11 +83,11 @@ function LabelSource({ onLabelUpdate }) {
             {/* url / upload */}
             <div className="row">
                 <div className="col-2 d-flex">
-                    <div className="d-inline-block align-self-center me-auto">
+                    <div className="align-self-center">
                         Label File (HTML / PDF):
                     </div>
                 </div>
-                <div className="col-4">
+                <div className="col-5">
 
                     {/* ref by url */}
                     {isRefByUrl === true &&
@@ -116,7 +116,7 @@ function LabelSource({ onLabelUpdate }) {
                         <input className="form-control" type="file" accept="application/pdf, text/html" onChange={(e) => setFileLabel(e.target.files[0])} />
                     }
                 </div>
-                <div className="col-6 d-flex">
+                <div className="col-5 d-flex">
 
                     {/* ref by url */}
                     {isRefByUrl === true && refLabelValidation &&
@@ -142,7 +142,7 @@ function LabelSource({ onLabelUpdate }) {
             {/* switch: upload / ref */}
             <div className="row mt-2">
                 <div className="col-2"></div>
-                <div className="col-4">
+                <div className="col-5">
                     <div className="form-check form-check-inline">
                         <input className="form-check-input" type="radio" checked={isRefByUrl} onChange={(e) => setRefByUrl(e.target.checked)} />
                         <label className="form-check-label">Reference by URL</label>
@@ -152,7 +152,7 @@ function LabelSource({ onLabelUpdate }) {
                         <label className="form-check-label">Upload File</label>
                     </div>
                 </div>
-                <div className="col-6"></div>
+                <div className="col-5"></div>
             </div>
         </div>
     );
