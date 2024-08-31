@@ -36,7 +36,7 @@ function Toast({ event, onResetEvent }) {
     // return final toast output
     return (
         <div className="toast-container position-fixed top-0 end-0 px-2">
-            <div className={`toast bg-${event?.severity}-subtle border border-${event?.severity} m-3`} role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" ref={REF_TOAST}>
+            <div className={`toast bg-${event?.severity}-subtle border border-${event?.severity} m-3`} role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000" data-bs-autohide="true" ref={REF_TOAST}>
                 <div className={`toast-header bg-${event?.severity}-subtle`}>
 
                     <strong className="me-auto">{event?.title}</strong>
