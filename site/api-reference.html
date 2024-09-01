@@ -15,6 +15,15 @@
         .swagger-ui .wrapper {
             padding: 0px;
         }
+
+        .swagger-ui .info {
+            display: none;
+        }
+
+        .swagger-ui .scheme-container {
+            padding: 0px;
+            box-shadow: none;
+        }
     </style>
 </head>
 
@@ -46,7 +55,7 @@
 
     <script>
         const resizeObserver = new ResizeObserver(entries => {
-            window.parent.postMessage({ source: 'swagger-ui', height: entries[0].target.clientHeight + 200 }, '*');
+            window.parent.postMessage({ source: 'swagger-ui', height: entries[0].target.clientHeight + 100 }, '*');
         });
 
         resizeObserver.observe(document.body)
