@@ -107,7 +107,7 @@ function Main() {
     const [zplData, setZplData] = useState("")
 
     const generateZplLabel = () => {
-        if(endpoint === undefined) {
+        if (endpoint === undefined) {
             return;
         }
 
@@ -148,6 +148,29 @@ function Main() {
         saveAs(blob, "hello world.zpl.txt");
     }
 
+    // print zpl label
+    const [tcpAddress, setTcpAddress] = useState(undefined)
+
+    const printZplLabel = () => {
+        fetch('/v1/print/' + tcpAddress, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain'
+            },
+            body: zplData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response.status + " " + response.statusText);
+                }
+                return response.text();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showEvent("Error Print Label.", error.message, "danger")
+            });
+            // .finally(() => setZplGenerationActive(false));
+    }
 
     // return final output
     return (
@@ -206,7 +229,15 @@ function Main() {
                 <div className="col-6">{zplData && Dimensions.bytes2readable(new Blob([zplData]).size)}</div>
                 <div className="col-6 text-end">
                     <button type="button" className="btn btn-outline-secondary btn-sm me-3" onClick={copyZplToClipboard} disabled={zplData === undefined}><i className="bi bi-copy me-2"></i>Copy to Clipboard</button>
-                    <button type="button" className="btn btn-outline-secondary btn-sm" onClick={saveZplAsFile} disabled={zplData === undefined}><i className="bi bi-cloud-download me-2"></i>Download</button>
+                    <button type="button" className="btn btn-outline-secondary btn-sm me-3" onClick={saveZplAsFile} disabled={zplData === undefined}><i className="bi bi-cloud-download me-2"></i>Download</button>
+
+                    <div className="d-inline-block" style={{width: 240}}>
+                        <div class="input-group input-group-sm">
+                            <span class={`input-group-text ${zplData === undefined && 'text-body-tertiary'}`}><small>tcp://</small></span>
+                            <input type="text" className={`form-control ${zplData === undefined && 'text-body-tertiary'}`} placeholder="127.0.0.1:9100" disabled={zplData === undefined} value={tcpAddress ? tcpAddress : ""} onChange={(e) => e.target.value === "" ? setTcpAddress(undefined) : setTcpAddress(e.target.value)} />
+                            <button type="button" className="btn btn-outline-secondary" onClick={printZplLabel} disabled={zplData === undefined}><i className="bi bi-printer me-2"></i>Print</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
