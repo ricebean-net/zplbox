@@ -55,7 +55,7 @@
 
     <script>
         const resizeObserver = new ResizeObserver(entries => {
-            window.parent.postMessage({ source: 'swagger-ui', height: entries[0].target.clientHeight + 100 }, '*');
+            window.parent.postMessage({ source: 'swagger-ui', height: entries[0].target.clientHeight + 50 }, '*');
         });
 
         resizeObserver.observe(document.body)

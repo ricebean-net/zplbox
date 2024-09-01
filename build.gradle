@@ -19,7 +19,7 @@ processResources {
 	filesMatching(['**/*.xml', '**/*.html', '**/*.yml']) {
 		filter(ReplaceTokens, tokens:  [
 				'version': project.properties['version'],
-				'appname': 'zplbox',
+				'appname': 'ZplBox Community Edition',
 				'buildtime': new Date().format("yyyy-MM-dd HH:mm:ss'Z'", TimeZone.getTimeZone("GMT"))
 		])
 	}
