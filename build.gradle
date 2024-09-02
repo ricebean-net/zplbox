@@ -16,12 +16,12 @@ java {
 }
 
 processResources {
+	filter(ReplaceTokens, tokens:  [
+			'name': 'ZplBox Community Edition',
+			'version': project.properties['version'],
+			'buildtime': new Date().format("yyyy-MM-dd HH:mm:ss'Z'", TimeZone.getTimeZone("GMT"))
+	])
 	filesMatching(['**/*.xml', '**/*.html', '**/*.yml']) {
-		filter(ReplaceTokens, tokens:  [
-				'version': project.properties['version'],
-				'appname': 'ZplBox Community Edition',
-				'buildtime': new Date().format("yyyy-MM-dd HH:mm:ss'Z'", TimeZone.getTimeZone("GMT"))
-		])
 	}
 }
 
