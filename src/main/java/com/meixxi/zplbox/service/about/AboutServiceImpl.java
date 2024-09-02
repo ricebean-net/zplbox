@@ -17,7 +17,7 @@ public class AboutServiceImpl implements AboutService {
     private String appName;
 
     @Value("${app.version}")
-    private String version;
+    private String appVersion;
 
     @Value("${app.buildtime}")
     private String buildTime;
@@ -49,8 +49,8 @@ public class AboutServiceImpl implements AboutService {
     }
 
     @Override
-    public String getVersion() {
-        return "";
+    public String getAppVersion() {
+        return this.appVersion;
     }
 
     @Override

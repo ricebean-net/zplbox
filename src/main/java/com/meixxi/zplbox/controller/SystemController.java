@@ -88,7 +88,7 @@ public class SystemController {
 
         private Version() {
             this.appName = aboutService.getAppName();
-            this.appVersion = aboutService.getVersion();
+            this.appVersion = aboutService.getAppVersion();
             this.commitId = aboutService.getCommitId();
         }
 

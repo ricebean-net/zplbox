@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Dimensions from './../../common/util/Dimensions';
 
-function LabelSource({ onLabelUpdate }) {
+function ZplSource({ onLabelUpdate }) {
 
 
     // reference handling
@@ -129,7 +129,6 @@ function LabelSource({ onLabelUpdate }) {
                         </div>
                     }
 
-
                     {/* upload file */}
                     {isRefByUrl === false && fileLabel &&
                         <div className="align-self-center">
@@ -158,4 +157,4 @@ function LabelSource({ onLabelUpdate }) {
     );
 }
 
-export default LabelSource;
+export default ZplSource;

@@ -6,16 +6,16 @@ package com.meixxi.zplbox.service.about;
 public interface AboutService {
 
     /**
-     * Returns the version of the application.
-     * @return The applications version.
-     */
-    String getVersion();
-
-    /**
      * Returns the name of the application.
      * @return The applications name.
      */
     String getAppName();
+
+    /**
+     * Returns the version of the application.
+     * @return The applications version.
+     */
+    String getAppVersion();
 
     /**
      * Retruns the build time of the application.

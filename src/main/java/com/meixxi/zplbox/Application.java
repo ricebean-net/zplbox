@@ -34,7 +34,7 @@ public class Application {
 	public void onStartUp() {
 
 		// some informal log messages
-		log.warn(String.format("%s %s has started. (rev: %s)", aboutService.getAppName(), aboutService.getVersion(), aboutService.getCommitId()));
+		log.warn("{} {} has started. (rev: {})", aboutService.getAppName(), aboutService.getAppVersion(), aboutService.getCommitId());
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class Application {
 	 */
 	@PreDestroy
 	public void destroy() {
-		log.warn("Application is going to be shutdown...");
+        log.warn("{} is going to be shutdown...", aboutService.getAppName());
 	}
 
 }

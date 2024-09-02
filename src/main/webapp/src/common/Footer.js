@@ -20,6 +20,7 @@ function Footer() {
 
 
     // update version periodically
+    const [name, setName] = useState("n. a.");
     const [version, setVersion] = useState("n. a.");
 
     useEffect(() => {
@@ -30,7 +31,6 @@ function Footer() {
     }, []);
 
     function updateVersion() {
-
         fetch("/version")
             .then(response => {
                 if (response.ok) {
@@ -38,6 +38,11 @@ function Footer() {
                 }
             })
             .then(version => {
+
+                // name
+                setName(version.appName);
+
+                // version number
                 if (version == null) {
                     setVersion("n. a.");
 
@@ -46,11 +51,7 @@ function Footer() {
                     var versionText = "v" + version.appVersion
 
                     if (version.commitId) {
-                        versionText += "-" + version.commitId;
-                    }
-
-                    if (version.environment) {
-                        versionText += "-" + version.environment;
+                        versionText += "-" + version.commitId.substring(0, 8);
                     }
 
                     if (version.buildTime) {
@@ -69,10 +70,10 @@ function Footer() {
             <small><small>
                 <div className="row row-cols-2">
                     <div className="col">
-                        ZplBox Community Edition
+                        {name}
                     </div>
                     <div className="col text-end">
-                        Apache-2.0 license
+                        AGPL-3.0 license
                     </div>
                 </div>
                 <div className="row row-cols-2 pt-1">
