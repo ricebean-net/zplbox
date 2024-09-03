@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
-import { saveAs } from "file-saver"
 import Toast from "./Toast";
-import LabelSource from "./modules/LabelSource";
-import ConversionConfig from "./modules/ConversionConfig";
-import Dimensions from './../common/util/Dimensions';
-
+import ZplSource from "./modules/ZplSource";
+import ZplConversionConfig from "./modules/ZplConversionConfig";
+import ZplGeneration from "./modules/ZplGeneration";
+import ZplOutput from "./modules/ZplOuput";
 
 
 function Main() {
-
 
     // event handling (toasts)
     const [event, setEvent] = useState(undefined);
@@ -55,51 +53,51 @@ function Main() {
 
 
     // endpoint handling
-    const [endpoint, setEndpoint] = useState(undefined);
+    const [endpointBase, setEndpointBase] = useState(undefined);
 
-    const updateEndpoint = (endpoint) => {
+    const updateEndpointBase = (endpointBase) => {
         if (labelSource === undefined) {
             return;
         }
 
-        setEndpoint(endpoint);
+        setEndpointBase(endpointBase);
     }
 
     useEffect(() => {
         if (labelSource === undefined) {
-            setEndpoint(undefined);
+            setEndpointBase(undefined);
             return;
         }
 
         if (labelSource.mimeType === "application/pdf") {
-            setEndpoint("pdf2zpl");
+            setEndpointBase("pdf2zpl");
         } else {
-            setEndpoint("html2zpl")
+            setEndpointBase("html2zpl")
         }
 
     }, [labelSource])
 
 
-    // construct curl request
-    const [cmdCurl, setCmdCurl] = useState("");
+    // label printer handling
+    const [tcpAddress, setTcpAddress] = useState("127.0.0.1:9100");
+    const [isTcpForward, setTcpForward] = useState(false);
+
+    // endpoint definition
+    const [endpoint, setEndpoint] = useState(undefined);
 
     useEffect(() => {
-        if (payload === undefined) {
-            setCmdCurl(undefined);
+        if(endpointBase === undefined) {
+            setEndpoint(undefined)
             return;
         }
 
-        const baseUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}`;
+        if(isTcpForward === true && tcpAddress !== undefined) {
+            setEndpoint(`${endpointBase}/print/${tcpAddress}`)
+        } else {
+            setEndpoint(endpointBase)
+        }
 
-        const cmdLines = [
-            `curl --request POST`,
-            `     --url ${baseUrl}/v1/${endpoint}`,
-            `     --header 'content-type: application/json'`,
-            `     --data '${JSON.stringify(payload)}'`
-        ]
-
-        setCmdCurl(cmdLines.join(" \\ \n"));
-    }, [payload])
+    }, [endpointBase, isTcpForward, tcpAddress])
 
 
     // zpl label generation
@@ -137,40 +135,6 @@ function Main() {
             .finally(() => setZplGenerationActive(false));
     }
 
-    const copyZplToClipboard = () => {
-        navigator.clipboard.writeText(zplData)
-            .then(() => showEvent("Copy to clipboard successful", "Your ZPL label has been copied successfully to the clipboard.", "success"))
-            .catch(() => showEvent("Error copy to clipboard", "Error copying to clipboard.", "danger"));
-    }
-
-    const saveZplAsFile = () => {
-        var blob = new Blob([zplData], { type: "text/plain;charset=utf-8" });
-        saveAs(blob, "hello world.zpl.txt");
-    }
-
-    // print zpl label
-    const [tcpAddress, setTcpAddress] = useState(undefined)
-
-    const printZplLabel = () => {
-        fetch('/v1/print/' + tcpAddress, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'text/plain'
-            },
-            body: zplData
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(response.status + " " + response.statusText);
-                }
-                return response.text();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showEvent("Error Print Label.", error.message, "danger")
-            });
-            // .finally(() => setZplGenerationActive(false));
-    }
 
     // return final output
     return (
@@ -183,63 +147,33 @@ function Main() {
                 </div>
             </div>
 
-            <LabelSource onLabelUpdate={setLabelSource} />
+            <ZplSource onLabelUpdate={setLabelSource} />
 
-            {/* label source */}
+
+            {/* configuration config */}
             <div className="row mt-5">
                 <div className="col">
-                    <h2>2. Configure ZPL conversion</h2>
+                    <h2>2. Configure ZPL Conversion</h2>
                 </div>
             </div>
 
-            <ConversionConfig endpoint={endpoint} onEndpointUpdate={updateEndpoint} onConfigUpdate={setConversionConfig} />
+            <ZplConversionConfig endpointBase={endpointBase} payload={payload} onEndpointBaseUpdate={updateEndpointBase} onConfigUpdate={setConversionConfig} />
 
-            <div className="row mt-3">
-                <div className="col-2"></div>
-                <div className="col-5">
-                    <small>JSON Payload:</small>
-                    <textarea className="form-control form-control-sm font-monospace bg-body-tertiary" wrap="off" rows={5} value={payload === undefined ? "" : JSON.stringify(payload, null, 2)} readOnly={true} style={{ resize: 'none' }} />
-                </div>
-                <div className="col-5">
-                    <small>CLI Command:</small>
-                    <textarea className="form-control form-control-sm font-monospace bg-body-tertiary" wrap="off" rows={5} value={cmdCurl === undefined ? "" : cmdCurl} readOnly={true} style={{ resize: 'none' }} />
-                </div>
-            </div>
 
-            {/* generate label */}
+            {/* create zpl (& forward) */}
             <div className="row mt-5">
-                <div className="col-6">
+                <div className="col-12">
                     <h2>3. Generate ZPL Label</h2>
                 </div>
-                <div className="col-6 text-end">
-                    <button type="button" className="btn btn-outline-primary btn-sm" onClick={generateZplLabel} disabled={zplGenerationActive || endpoint === undefined}>
-                        <div className={`spinner-border spinner-border-sm me-2 ${zplGenerationActive === false && 'd-none'}`} role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
-                        Create ZPL Label
-                    </button>
-                </div>
             </div>
-            <div className="row mt-2">
-                <div className="col-12">
-                    <textarea className="form-control form-control-sm font-monospace bg-body-tertiary" rows={5} value={zplData === undefined ? "" : zplData} readOnly={true} style={{ resize: 'none' }} />
-                </div>
-            </div>
-            <div className="row mt-2">
-                <div className="col-6">{zplData && Dimensions.bytes2readable(new Blob([zplData]).size)}</div>
-                <div className="col-6 text-end">
-                    <button type="button" className="btn btn-outline-secondary btn-sm me-3" onClick={copyZplToClipboard} disabled={zplData === undefined}><i className="bi bi-copy me-2"></i>Copy to Clipboard</button>
-                    <button type="button" className="btn btn-outline-secondary btn-sm me-3" onClick={saveZplAsFile} disabled={zplData === undefined}><i className="bi bi-cloud-download me-2"></i>Download</button>
 
-                    <div className="d-inline-block" style={{width: 240}}>
-                        <div class="input-group input-group-sm">
-                            <span class={`input-group-text ${zplData === undefined && 'text-body-tertiary'}`}><small>tcp://</small></span>
-                            <input type="text" className={`form-control ${zplData === undefined && 'text-body-tertiary'}`} placeholder="127.0.0.1:9100" disabled={zplData === undefined} value={tcpAddress ? tcpAddress : ""} onChange={(e) => e.target.value === "" ? setTcpAddress(undefined) : setTcpAddress(e.target.value)} />
-                            <button type="button" className="btn btn-outline-secondary" onClick={printZplLabel} disabled={zplData === undefined}><i className="bi bi-printer me-2"></i>Print</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <ZplGeneration endpoint={endpoint} payload={payload} tcpAddress={tcpAddress} isTcpForward={isTcpForward} zplGenerationActive={zplGenerationActive}
+                onGenerateLabel={generateZplLabel} onTcpAddressUpdate={setTcpAddress} onTcpForwardUpdate={setTcpForward} />
+
+
+            {/* output */}
+            <ZplOutput zplData={zplData} tcpAddress={tcpAddress} isTcpForward={isTcpForward} onEvent={showEvent} onTcpAddressUpdate={setTcpAddress} />
+
 
             {/* toasts */}
             <Toast event={event} onResetEvent={() => setEvent(undefined)} />
