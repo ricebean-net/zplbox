@@ -27,7 +27,6 @@ public class PrintController {
 
         try {
             URI uri = new URI("tcp://" + tcpAddress);
-
             printService.printLabel(zplData, uri.getHost(), uri.getPort());
 
             log.info("Print label...");

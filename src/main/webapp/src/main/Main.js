@@ -53,26 +53,26 @@ function Main() {
 
 
     // endpoint handling
-    const [endpoint, setEndpoint] = useState(undefined);
+    const [endpointBase, setEndpointBase] = useState(undefined);
 
-    const updateEndpoint = (endpoint) => {
+    const updateEndpointBase = (endpointBase) => {
         if (labelSource === undefined) {
             return;
         }
 
-        setEndpoint(endpoint);
+        setEndpointBase(endpointBase);
     }
 
     useEffect(() => {
         if (labelSource === undefined) {
-            setEndpoint(undefined);
+            setEndpointBase(undefined);
             return;
         }
 
         if (labelSource.mimeType === "application/pdf") {
-            setEndpoint("pdf2zpl");
+            setEndpointBase("pdf2zpl");
         } else {
-            setEndpoint("html2zpl")
+            setEndpointBase("html2zpl")
         }
 
     }, [labelSource])
@@ -81,6 +81,23 @@ function Main() {
     // label printer handling
     const [tcpAddress, setTcpAddress] = useState("127.0.0.1:9100");
     const [isTcpForward, setTcpForward] = useState(false);
+
+    // endpoint definition
+    const [endpoint, setEndpoint] = useState(undefined);
+
+    useEffect(() => {
+        if(endpointBase === undefined) {
+            setEndpoint(undefined)
+            return;
+        }
+
+        if(isTcpForward === true && tcpAddress !== undefined) {
+            setEndpoint(`${endpointBase}/print/${tcpAddress}`)
+        } else {
+            setEndpoint(endpointBase)
+        }
+
+    }, [endpointBase, isTcpForward, tcpAddress])
 
 
     // zpl label generation
@@ -140,7 +157,7 @@ function Main() {
                 </div>
             </div>
 
-            <ZplConversionConfig endpoint={endpoint} payload={payload} onEndpointUpdate={updateEndpoint} onConfigUpdate={setConversionConfig} />
+            <ZplConversionConfig endpointBase={endpointBase} payload={payload} onEndpointBaseUpdate={updateEndpointBase} onConfigUpdate={setConversionConfig} />
 
 
             {/* create zpl (& forward) */}

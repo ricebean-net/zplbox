@@ -13,6 +13,15 @@ public class Responses {
     /**
      * Helper method to create an OK response.
      *
+     * @return The state object response entity object.
+     */
+    public static <T> ResponseEntity<T> createOkResponse() {
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    /**
+     * Helper method to create an OK response.
+     *
      * @param obj The object to be returned.
      * @return The state object response entity object.
      */

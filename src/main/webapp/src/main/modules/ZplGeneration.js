@@ -21,7 +21,7 @@ function ZplGeneration({ payload, endpoint, tcpAddress, isTcpForward, zplGenerat
         ]
 
         setCmdCurl(cmdLines.join(" \\ \n"));
-    }, [payload])
+    }, [payload, endpoint])
 
 
     // return final output

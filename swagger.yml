@@ -2,22 +2,24 @@ openapi: 3.0.3
 info:
   title: ZplBox
   description: |-
-    Conversion of content into ZPL.
+    **ZPL Print Server**; Service to convert HTML/PDF content to ZPL.
   version: 1.0.0
 servers:
   - url: http://localhost:8080/
 tags:
-  - name: html2zpl
+  - name: Web Content
     description: Conversion of HTML based web content to ZPL.
-  - name: pdf2zpl
+  - name: PDF
     description: Conversion of PDF Documents to ZPL.
+  - name: ZPL
+    description: Handling of ZPL Documents.
   - name: System
     description: System Endpoint.
 paths:
   /v1/html2zpl:
     post:
       tags:
-        - html2zpl
+        - Web Content
       summary: Conversion of Web Content to ZPL.
       requestBody:
         content:
@@ -30,10 +32,28 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 
+  /v1/html2zpl/print/{tcpAddress}:
+    post:
+      tags:
+        - Web Content
+      summary: Conversion of Web Content to ZPL and forward to given TCP Address (ZPL Label Printer).
+      parameters:
+        - $ref: '#/components/parameters/TcpAddress'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HtmlRenderingParams'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
   /v1/html2zpl/render:
     post:
       tags:
-        - html2zpl
+        - Web Content
       summary: Rendering of web content to a colored PNG.
       requestBody:
         content:
@@ -54,7 +74,7 @@ paths:
   /v1/pdf2zpl:
     post:
       tags:
-        - pdf2zpl
+        - PDF
       summary: Conversion of PDF Documents to ZPL.
       requestBody:
         content:
@@ -64,6 +84,42 @@ paths:
       responses:
         '200':
           $ref: "#/components/responses/ZplLabelResponse"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /v1/pdf2zpl/print/{tcpAddress}:
+    post:
+      tags:
+        - PDF
+      summary: Conversion of Web Content to ZPL and forward to given TCP Address (ZPL Label Printer).
+      parameters:
+        - $ref: '#/components/parameters/TcpAddress'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PdfRenderingParams'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /v1/print/{tcpAddress}:
+    post:
+      tags:
+        - ZPL
+      summary: Send ZPL to given TCP Address (ZPL Label Printer).
+      parameters:
+        - $ref: '#/components/parameters/TcpAddress'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HtmlRenderingParams'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
         '400':
           $ref: '#/components/responses/BadRequest'
 
@@ -94,6 +150,15 @@ paths:
                 $ref: "#/components/schemas/Status"
 
 components:
+  parameters:
+    TcpAddress:
+      in: path
+      name: tcpAddress
+      schema:
+        type: string
+      example: 127.0.0.1:9100
+      required: true
+      description: TCP Address of the destination where to send the ZPL File.
   responses:
     ZplLabelResponse:
       description: The ZPL Label
