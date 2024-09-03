@@ -105,7 +105,7 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 
-  /v1/print/{tcpAddress}:
+  /v1/zpl/print/{tcpAddress}:
     post:
       tags:
         - ZPL
