@@ -1,47 +1,49 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.3.2'
-	id 'io.spring.dependency-management' version '1.1.6'
+    id 'java'
+    id 'org.springframework.boot' version '3.3.2'
+    id 'io.spring.dependency-management' version '1.1.6'
 }
 
 group = 'com.meixxi.zplbox'
 version = project.hasProperty('projectVersion') ? project.projectVersion : 'DEV'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 processResources {
-	filesMatching(['**/*.xml', '**/*.html', '**/*.yml']) {
-		filter(ReplaceTokens, tokens:  [
-				'version': project.properties['version'],
-				'appname': 'ZplBox Community Edition',
-				'buildtime': new Date().format("yyyy-MM-dd HH:mm:ss'Z'", TimeZone.getTimeZone("GMT"))
-		])
-	}
+    filter(ReplaceTokens, tokens: [
+            'appname'  : 'ZplBox Community Edition',
+            'version'  : project.properties['version'],
+            'buildtime': new Date().format("yyyy-MM-dd HH:mm:ss'Z'", TimeZone.getTimeZone("GMT"))
+    ])
+    filesMatching(['**/*.xml', '**/*.html', '**/*.yml']) {
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'commons-io:commons-io:2.+'
-	implementation 'commons-codec:commons-codec:1.+'
-	implementation 'org.apache.pdfbox:pdfbox:2.+'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'commons-io:commons-io:2.+'
+    implementation 'commons-codec:commons-codec:1.+'
+    implementation('org.apache.pdfbox:pdfbox:2.+') {
+        exclude group: 'commons-logging', module: 'commons-logging'
+    }
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	testImplementation 'org.mockito:mockito-core'
-	testImplementation 'org.mockito:mockito-junit-jupiter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.mockito:mockito-junit-jupiter'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }

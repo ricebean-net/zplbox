@@ -12,3 +12,7 @@ spring:
     encoding:
       charset: UTF-8
       enabled: true
+  security:
+    user:
+      name: n.a.
+      password: n.a.
