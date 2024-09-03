@@ -14,15 +14,15 @@ import java.net.URI;
 import static org.springframework.http.MediaType.*;
 
 @RestController
-@RequestMapping("/v1/print")
-public class PrintController {
+@RequestMapping("/v1/zpl")
+public class ZplController {
 
-    private static final Logger log = LoggerFactory.getLogger(PrintController.class);
+    private static final Logger log = LoggerFactory.getLogger(ZplController.class);
 
     @Autowired
     private PrintService printService;
 
-    @PostMapping(value = "/{tcpAddress}", consumes = TEXT_PLAIN_VALUE, produces = {APPLICATION_PROBLEM_JSON_VALUE})
+    @PostMapping(value = "/print/{tcpAddress}", consumes = TEXT_PLAIN_VALUE, produces = {APPLICATION_PROBLEM_JSON_VALUE})
     public ResponseEntity<?> printLabel(@PathVariable String tcpAddress, @RequestBody String zplData, HttpServletRequest httpServletRequest) {
 
         try {
