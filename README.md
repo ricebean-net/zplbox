@@ -10,7 +10,7 @@ This approach opens up new possibilities that are nearly impossible with native 
 refer to https://zplbox.org.
 
 # Quick Start
-For a quick start, visit our Quick Start Guide at https://zplbox.org/#quick-start to get up and running with ZPLBox in no time. This guide provides step-by-step instructions to help you begin your journey quickly and efficiently.
+For a quick start, visit our Quick Start Guide at https://zplbox.org/#quick-start to get up and running with ZplBox in no time. This guide provides step-by-step instructions to help you begin your journey quickly and efficiently.
 
 # Technical Documentation
 ## API Reference
