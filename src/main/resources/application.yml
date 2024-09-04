@@ -1,7 +1,7 @@
 app:
-  name: @appname@
-  version: @version@
-  buildtime: @buildtime@
+  name: ${appname}
+  version: ${version}
+  buildtime: ${buildtime}
 
 
 spring:

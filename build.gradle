@@ -1,5 +1,3 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.2'
@@ -16,12 +14,12 @@ java {
 }
 
 processResources {
-    filter(ReplaceTokens, tokens: [
-            'appname'  : 'ZplBox Community Edition',
-            'version'  : project.properties['version'],
-            'buildtime': new Date().format("yyyy-MM-dd HH:mm:ss'Z'", TimeZone.getTimeZone("GMT"))
-    ])
-    filesMatching(['**/*.xml', '**/*.html', '**/*.yml']) {
+    filesMatching('**/application.yml') {
+        expand(
+                appname: 'ZplBox Community Edition',
+                version: project.properties['version'],
+                buildtime: new Date().format("yyyy-MM-dd HH:mm:ss'Z'", TimeZone.getTimeZone("GMT"))
+        )
     }
 }
 

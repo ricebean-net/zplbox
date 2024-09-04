@@ -28,8 +28,6 @@ COPY ["gradlew", "build.gradle", "settings.gradle", "/work/app/"]
 
 COPY --from=webapp-builder ["/home/node/app/build", "/work/app/src/main/resources/static"]
 
-
-
 WORKDIR /work/app
 
 ARG VERSION=0.0.0
