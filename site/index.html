@@ -136,28 +136,21 @@
                                 <div id="description">
                                     <h1>Description</h1>
                                     <p>
-                                        ZplBox is based on an embedded <a href="https://www.chromium.org/Home/"
-                                            rel="nofollow">Chromium</a>, rendering your web content as PNG. So,
-                                        you
-                                        can leverage the full web technology stack to create your labels. You can submit
-                                        your web content via a file or by referencing it using an external
-                                        URL (preferred).
+                                        ZplBox utilizes an embedded <a href="https://www.chromium.org/Home/"
+                                            rel="nofollow">Chromium</a> engine to render your web content as PNG,
+                                        enabling you to use the full web technology stack to create your labels.
+                                        PDF documents are converted to PNG using <a href="https://pdfbox.apache.org/" rel="nofollow">Apache PDFBox</a>. You can
+                                        submit your content either as a file or by referencing an external URL.
                                     </p>
                                     <p>
-                                        The conversion of PDF documents to PNG is based on <a
-                                            href="https://pdfbox.apache.org/" rel="nofollow">Apache PDFBox</a>
+                                        Once your content is rendered as a PNG, it is transformed into a monochrome
+                                        image and encoded as a ZPL-native ASCII hexadecimal string. The resulting ZPL
+                                        label consists solely of this ASCII hexadecimal string, embedded in a Graphic
+                                        Field (^GF), and is returned in the response or directly forwarded to the label
+                                        printer (ZPL Print Server).
                                     </p>
                                     <p>
-                                        Once rendered as PNG, your content will be converted into a monochrome image and
-                                        encoded in a ZPL native ASCII hexadecimal string.
-                                        The final ZPL label consists of only the ASCII hexadecimal string embedded in a
-                                        Graphic Field (^GF) and will sent back in the response or directly forwarded to the 
-                                        label printer (ZPL Print Server).
-                                    </p>
-
-                                    <p>
-                                        This approach will allow you new possibilities, which are nearly impossible with
-                                        native ZPL, including:
+                                        This approach opens up new possibilities that are nearly impossible with native ZPL, including:
                                     </p>
                                     <ul class="ms-5">
                                         <li>
@@ -193,7 +186,8 @@
                                         directly to the specified TCP address.
                                     </div>
                                     <div class="mt-3 text-center">
-                                        <img src="./assets/zplbox-architecture.png" class="w-100 border border-dark rounded shadow-sm" style="max-width: 700px;"
+                                        <img src="./assets/zplbox-architecture.png"
+                                            class="w-100 border border-dark rounded shadow-sm" style="max-width: 700px;"
                                             alt="ZPLBox Print Server Architecture" />
                                     </div>
                                     <small><i>Figure: ZplBox as ZPL Print Server</i></small>
@@ -212,12 +206,11 @@
                                     </div>
                                     <div class="mt-4">
                                         <h2>2. Open ZplBox UI</h2>
-                                        ZplBox is delivered with an integrated user interface (UI) allowing you to get
-                                        used
-                                        to ZplBox and its API. The UI can be used to manually convert <i>HTML to ZPL</i>
-                                        and
-                                        <i>PDF to ZPL</i> and to send the generated ZPL labels to a printer. The UI is available at <a href="http://localhost:8080"
-                                            rel="nofollow">http://localhost:8080</a>.
+                                        ZplBox comes with an intuitive user interface (UI) designed to help you get
+                                        started with ZplBox and its API effortlessly. The UI allows you to manually
+                                        convert HTML and PDF files to ZPL (Zebra Programming Language) and send the
+                                        generated ZPL labels directly to a printer. You can access the interface at<a
+                                            href="http://localhost:8080" rel="nofollow">http://localhost:8080</a>.
                                         <div class="mt-3">
                                             <img src="./assets/screen-1.png"
                                                 class="w-100 border border-dark rounded shadow-sm" />
@@ -232,8 +225,11 @@
                                     <h1>API Reference</h1>
                                     <h2>Example</h2>
                                     <div>
-                                        Here is a first curl example of submitting an <a href="https://github.com/meixxi/zplbox?tab=readme-ov-file#ups-shipping-label-example-html">UPS test label</a> to the API.
-                                        You will find more, automatically generated, examples in the ZplBox user interface.
+                                        Here is a first curl example of submitting an <a
+                                            href="https://github.com/meixxi/zplbox?tab=readme-ov-file#ups-shipping-label-example-html">UPS
+                                            test label</a> to the API.
+                                        You will find more, automatically generated, examples in the ZplBox user
+                                        interface.
                                     </div>
                                     <div class="border border-secondary-subtle rounded p-2 bg-light my-2">
                                         <pre class="m-0">
@@ -277,7 +273,7 @@ curl --request POST \
                                 </div>
 
                                 <!--  -->
-                                
+
                             </div>
                         </div>
                     </div>
