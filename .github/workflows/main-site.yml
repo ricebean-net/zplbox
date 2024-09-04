@@ -34,6 +34,7 @@ jobs:
         with:
           base-url-path: 'https://zplbox.org'
           path-to-root: './site'
+          exclude-paths: './site/api-reference.embedded.html'
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
