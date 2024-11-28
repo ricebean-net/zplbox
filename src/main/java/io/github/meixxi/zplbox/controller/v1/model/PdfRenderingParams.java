@@ -1,16 +1,18 @@
 package io.github.meixxi.zplbox.controller.v1.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import io.github.meixxi.zplbox.controller.v1.model.types.Orientation;
 
 /**
  * RenderingParams model object.
  */
 @JsonDeserialize(builder = PdfRenderingParams.Builder.class)
-public class PdfRenderingParams {
+public class PdfRenderingParams implements RenderingParams {
 
     private final String url;
     private final String dataBase64;
     private final int dotsPerInch;
+    private final Orientation orientation;
 
     /**
      * Private constructor.
@@ -20,6 +22,7 @@ public class PdfRenderingParams {
         this.url = builder.url;
         this.dataBase64 = builder.dataBase64;
         this.dotsPerInch = builder.dotsPerInch;
+        this.orientation = builder.orientation;
     }
 
     public String getUrl() {
@@ -34,6 +37,10 @@ public class PdfRenderingParams {
         return dotsPerInch;
     }
 
+    public Orientation getOrientation() {
+        return orientation;
+    }
+
     /**
      * PdfRenderingParams Builder
      */
@@ -42,6 +49,7 @@ public class PdfRenderingParams {
         private String url;
         private String dataBase64;
         private int dotsPerInch;
+        private Orientation orientation = Orientation.Rotate0;
 
         public Builder() {
         }
@@ -58,6 +66,11 @@ public class PdfRenderingParams {
 
         public Builder withDotsPerInch(int dotsPerInch) {
             this.dotsPerInch = dotsPerInch;
+            return this;
+        }
+
+        public Builder withOrientation(Orientation orientation) {
+            this.orientation = orientation;
             return this;
         }
 

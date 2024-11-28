@@ -24,19 +24,14 @@ public class ZplController {
 
     @PostMapping(value = "/print/{tcpAddress}", consumes = TEXT_PLAIN_VALUE, produces = {APPLICATION_PROBLEM_JSON_VALUE})
     public ResponseEntity<?> printLabel(@PathVariable String tcpAddress, @RequestBody String zplData, HttpServletRequest httpServletRequest) {
-
         try {
             URI uri = new URI("tcp://" + tcpAddress);
             printService.printLabel(zplData, uri.getHost(), uri.getPort());
+            return Responses.createOkResponse();
 
-            log.info("Print label...");
-            System.out.println("test");
-
-            return null;
         } catch (Exception ex) {
             log.error("Error printing label.", ex);
             return Responses.createBadRequestResponse(httpServletRequest, ex);
         }
-
     }
 }
