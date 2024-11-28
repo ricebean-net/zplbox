@@ -10,9 +10,7 @@ import java.awt.image.BufferedImage;
 @Service
 public class ImageServiceImpl implements ImageService {
 
-    /**
-     * Convert a BufferedImage object to monochrome.
-     */
+    @Override
     public BufferedImage convertToMonochrome(BufferedImage img) {
         BufferedImage monochromeImage = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
 
@@ -23,23 +21,31 @@ public class ImageServiceImpl implements ImageService {
         return monochromeImage;
     }
 
-    /**
-     * Scale a BufferedImage object by a factor.
-     */
-    public BufferedImage resize(BufferedImage image, float scaleFactor) {
-        int scaledWidth = Math.round(image.getWidth() * scaleFactor);
-        int scaledHeight = Math.round(image.getHeight() * scaleFactor);
+    @Override
+    public BufferedImage rotate(BufferedImage img, double degrees) {
+        if(degrees == 0) {
+            return img;
+        }
 
-        AffineTransform affineTransform = new AffineTransform();
-        affineTransform.scale(scaleFactor, scaleFactor);
+        double radians = Math.toRadians(degrees);
 
-        AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, AffineTransformOp.TYPE_BILINEAR);
+        int width = img.getWidth();
+        int height = img.getHeight();
 
-        BufferedImage resizedImage = new BufferedImage(scaledWidth, scaledHeight, image.getType());
-        resizedImage = affineTransformOp.filter(image, resizedImage);
+        double sin = Math.abs(Math.sin(radians));
+        double cos = Math.abs(Math.cos(radians));
+        int newWidth = (int) Math.floor(width * cos + height * sin);
+        int newHeight = (int) Math.floor(height * cos + width * sin);
 
-        return resizedImage;
+        AffineTransform transform = new AffineTransform();
+        transform.translate((newWidth - width) / 2, (newHeight - height) / 2); // Center the image
+        transform.rotate(-radians, width / 2.0, height / 2.0); // Rotate around the center
+
+        BufferedImage rotatedImage = new BufferedImage(newWidth, newHeight, img.getType());
+        Graphics2D g2d = rotatedImage.createGraphics();
+        g2d.drawImage(img, transform, null);
+        g2d.dispose();
+
+        return rotatedImage;
     }
-
-
 }

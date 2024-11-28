@@ -14,7 +14,6 @@ public class PrintServiceImpl implements PrintService {
 
     private static final Logger log = LoggerFactory.getLogger(PrintServiceImpl.class);
 
-
     @Override
     public void printLabel(String zplData, String ip, int port) throws Exception {
         try (Socket socket = new Socket(ip, port)) {

@@ -11,4 +11,12 @@ public interface ImageService {
      */
     BufferedImage convertToMonochrome(BufferedImage img);
 
+    /**
+     * Rotation of an image by a given number of degrees.
+     * @param img The image to be rotated.
+     * @param degrees The degrees to be applied.
+     * @return The rotated image
+     */
+    BufferedImage rotate(BufferedImage img, double degrees);
+
 }
