@@ -36,7 +36,7 @@ paths:
     post:
       tags:
         - Web Content
-      summary: Conversion of Web Content to ZPL and forward to given TCP Address (ZPL Label Printer).
+      summary: Conversion of Web Content to ZPL and forward to a given TCP Address (ZPL Label Printer).
       parameters:
         - $ref: '#/components/parameters/TcpAddress'
       requestBody:
@@ -75,7 +75,7 @@ paths:
     post:
       tags:
         - PDF
-      summary: Conversion of PDF Documents to ZPL.
+      summary: Conversion of a PDF document to ZPL.
       requestBody:
         content:
           application/json:
@@ -91,7 +91,7 @@ paths:
     post:
       tags:
         - PDF
-      summary: Conversion of Web Content to ZPL and forward to given TCP Address (ZPL Label Printer).
+      summary: Conversion of a PDF document to ZPL and forward to a given TCP Address (ZPL Label Printer).
       parameters:
         - $ref: '#/components/parameters/TcpAddress'
       requestBody:
@@ -105,11 +105,32 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 
+  /v1/pdf2zpl/render:
+    post:
+      tags:
+        - PDF
+      summary: Rendering of a PDF document to a colored PNG.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PdfRenderingParams'
+      responses:
+        '200':
+          description: The rendered PNG image.
+          content:
+              application/png:
+                schema: 
+                  type: string
+                  format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
   /v1/zpl/print/{tcpAddress}:
     post:
       tags:
         - ZPL
-      summary: Send ZPL to given TCP Address (ZPL Label Printer).
+      summary: Send ZPL to a given TCP Address (ZPL Label Printer).
       parameters:
         - $ref: '#/components/parameters/TcpAddress'
       requestBody:
@@ -196,6 +217,12 @@ components:
           type: integer
           description: The target rendered width of the ZPL label in points.
           example: 800
+        orientation:
+          type: string
+          enum: [ Rotate0, Rotate90, Rotate180, Rotate270 ]
+          description: Rotation of the final ZPL label.
+          default: Rotate0
+
 
     PdfRenderingParams:
       type: object
@@ -213,6 +240,11 @@ components:
           type: integer
           description: Resolution in dots per inch (dpi).
           example: 203
+        orientation:
+          type: string
+          enum: [ Rotate0, Rotate90, Rotate180, Rotate270 ]
+          description: Rotation of the final ZPL label.
+          default: Rotate0
 
     ProblemDetails:
       type: object

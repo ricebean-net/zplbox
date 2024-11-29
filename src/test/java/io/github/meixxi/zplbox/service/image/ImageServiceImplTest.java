@@ -30,4 +30,34 @@ class ImageServiceImplTest {
         // assert
         assertNotNull(result, "Result is null.");
     }
+
+    @Test
+    void rotate_0() throws Exception {
+
+        // arrange
+        InputStream is = ImageServiceImplTest.class.getResourceAsStream("/io/github/meixxi/zplbox/service/image/label-1.png");
+        BufferedImage img = ImageIO.read(is);
+
+        // act
+        BufferedImage result = imageService.rotate(img, 0);
+
+        // assert
+        assertNotNull(result, "Result is null.");
+        assertSame(img, result);
+    }
+
+    @Test
+    void rotate_90() throws Exception {
+
+        // arrange
+        InputStream is = ImageServiceImplTest.class.getResourceAsStream("/io/github/meixxi/zplbox/service/image/label-1.png");
+        BufferedImage img = ImageIO.read(is);
+
+        // act
+        BufferedImage result = imageService.rotate(img, 90);
+
+        // assert
+        assertNotNull(result, "Result is null.");
+        assertNotSame(img, result);
+    }
 }
