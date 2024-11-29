@@ -8,7 +8,7 @@ function ZplOutput({ zplData, tcpAddress, isTcpForward, onEvent, onTcpAddressUpd
 
     // print zpl label
     const printZplLabel = () => {
-        fetch('/v1/print/' + tcpAddress, {
+        fetch('/v1/zpl/print/' + tcpAddress, {
             method: 'POST',
             headers: {
                 'Content-Type': 'text/plain'
