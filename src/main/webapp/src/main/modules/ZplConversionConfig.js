@@ -2,10 +2,15 @@ import { useEffect, useState } from "react";
 
 function ZplConversionConfig({ endpointBase, payload, onEndpointBaseUpdate, onConfigUpdate }) {
 
+    // common config
+    const [orientation, setOrientation] = useState(undefined);
+
+
     // html2zpl config
     const [widthInches, setWidthInches] = useState(undefined);
     const [heightInches, setHeightInches] = useState(undefined);
     const [resolutionDpi, setResolutionDpi] = useState(undefined);
+
 
     const [widthPts, setWidthPts] = useState(undefined);
     const [heightPts, setHeightPts] = useState(undefined);
@@ -14,6 +19,7 @@ function ZplConversionConfig({ endpointBase, payload, onEndpointBaseUpdate, onCo
         setWidthInches(4);
         setHeightInches(6);
         setResolutionDpi(203);
+        setOrientation("Rotate0");
         onConfigUpdate({ widthPts: 4 * 203, heightPts: 6 * 203 });
     }
 
@@ -28,12 +34,14 @@ function ZplConversionConfig({ endpointBase, payload, onEndpointBaseUpdate, onCo
     }, [widthInches, heightInches, resolutionDpi]);
 
     useEffect(() => {
-        if (widthPts === undefined || heightPts === undefined) {
-            onConfigUpdate({ widthPts: undefined, heightPts: undefined });
-            return;
+        if (endpointBase === "html2zpl") {
+            if (widthPts === undefined || heightPts === undefined) {
+                onConfigUpdate({ widthPts: undefined, heightPts: undefined });
+                return;
+            }
+            onConfigUpdate({ widthPts: widthPts, heightPts: heightPts, orientation: orientation });
         }
-        onConfigUpdate({ widthPts: widthPts, heightPts: heightPts });
-    }, [widthPts, heightPts])
+    }, [widthPts, heightPts, orientation])
 
 
     // pdf2zpl config
@@ -42,11 +50,14 @@ function ZplConversionConfig({ endpointBase, payload, onEndpointBaseUpdate, onCo
     const resetPdfConfig = () => {
         setDotsPerInch(203);
         onConfigUpdate({ dotsPerInch: 203 });
+        setOrientation("Rotate0");
     }
 
     useEffect(() => {
-        onConfigUpdate({ dotsPerInch: dotsPerInch });
-    }, [dotsPerInch])
+        if (endpointBase === "pdf2zpl") {
+            onConfigUpdate({ dotsPerInch: dotsPerInch, orientation: orientation });
+        }
+    }, [dotsPerInch, orientation])
 
 
     // endpoint base configuration
@@ -111,7 +122,13 @@ function ZplConversionConfig({ endpointBase, payload, onEndpointBaseUpdate, onCo
                                 <input type="number" className="form-control" value={heightPts ? heightPts : ""} onChange={(e) => { setHeightPts(e.target.value === '' ? undefined : Number(e.target.value)); setWidthInches(undefined); setHeightInches(undefined); setResolutionDpi(undefined); }} />
                             </div>
                             <div className="col-6">
-
+                                <small>Orientation:</small>
+                                <select className="form-select" value={orientation} onChange={e => setOrientation(e.target.value)}>
+                                    <option value="Rotate0">Rotate0</option>
+                                    <option value="Rotate90">Rotate90</option>
+                                    <option value="Rotate180">Rotate180</option>
+                                    <option value="Rotate270">Rotate270</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -124,8 +141,14 @@ function ZplConversionConfig({ endpointBase, payload, onEndpointBaseUpdate, onCo
                                 <small>Resolution (dpi):</small>
                                 <input type="number" className="form-control" value={dotsPerInch ? dotsPerInch : ""} onChange={(e) => setDotsPerInch(e.target.value === '' ? undefined : Number(e.target.value))} />
                             </div>
-                            <div className="col-9">
-
+                            <div className="col-6">
+                                <small>Orientation:</small>
+                                <select className="form-select" value={orientation} onChange={e => setOrientation(e.target.value)}>
+                                    <option value="Rotate0">Rotate0</option>
+                                    <option value="Rotate90">Rotate90</option>
+                                    <option value="Rotate180">Rotate180</option>
+                                    <option value="Rotate270">Rotate270</option>
+                                </select>
                             </div>
                         </div>
                     </div>

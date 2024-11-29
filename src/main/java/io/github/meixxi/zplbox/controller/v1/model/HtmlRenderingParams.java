@@ -1,17 +1,19 @@
 package io.github.meixxi.zplbox.controller.v1.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import io.github.meixxi.zplbox.controller.v1.model.types.Orientation;
 
 /**
  * RenderingParams model object.
  */
 @JsonDeserialize(builder = HtmlRenderingParams.Builder.class)
-public class HtmlRenderingParams {
+public class HtmlRenderingParams implements RenderingParams {
 
     private final String url;
     private final String dataBase64;
     private final int widthPts;
     private final int heightPts;
+    private final Orientation orientation;
 
     /**
      * Private constructor.
@@ -22,6 +24,7 @@ public class HtmlRenderingParams {
         this.dataBase64 = builder.dataBase64;
         this.widthPts = builder.widthPts;
         this.heightPts = builder.heightPts;
+        this.orientation = builder.orientation;
     }
 
     public String getUrl() {
@@ -40,15 +43,20 @@ public class HtmlRenderingParams {
         return heightPts;
     }
 
+    public Orientation getOrientation() {
+        return orientation;
+    }
+
     /**
      * HtmlRenderingParams Builder
      */
-    public static class Builder{
+    public static class Builder {
 
         private String url;
         private String dataBase64;
         private int widthPts;
         private int heightPts;
+        private Orientation orientation = Orientation.Rotate0;
 
         public Builder() {
         }
@@ -70,6 +78,11 @@ public class HtmlRenderingParams {
 
         public Builder withHeightPts(int heightPts) {
             this.heightPts = heightPts;
+            return this;
+        }
+
+        public Builder withOrientation(Orientation orientation) {
+            this.orientation = orientation;
             return this;
         }
 
