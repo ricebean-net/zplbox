@@ -4,7 +4,7 @@ import io.github.meixxi.zplbox.controller.util.Responses;
 import io.github.meixxi.zplbox.controller.v1.model.RenderingParams;
 import io.github.meixxi.zplbox.service.image.ImageService;
 import io.github.meixxi.zplbox.service.zpl.ZplService;
-import io.github.meixxi.zplbox.util.Urls;
+import io.github.meixxi.zplbox.util.URIs;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,7 +117,7 @@ public abstract class ConverterController<T extends RenderingParams> {
         try {
 
             // normalize url
-            sourceUri = Urls.normalize(renderingParams.getUrl(), renderingParams.getDataBase64());
+            sourceUri = URIs.normalize(renderingParams.getUrl(), renderingParams.getDataBase64());
 
             // render and return content
             return renderContent(renderingParams, sourceUri);
