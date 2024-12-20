@@ -128,7 +128,7 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 
-  /v1/ng2zpl:
+  /v1/png2zpl:
     post:
       tags:
         - PNG
