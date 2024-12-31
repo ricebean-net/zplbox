@@ -44,5 +44,4 @@ public class Application {
 	public void destroy() {
         log.warn("{} is going to be shutdown...", aboutService.getAppName());
 	}
-
 }
