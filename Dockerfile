@@ -49,7 +49,7 @@ RUN $JAVA_HOME/bin/jlink \
          --compress=2 \
          --output /work/jre
 
-         
+
 # create final image
 FROM alpine:3
 
@@ -64,14 +64,18 @@ ENV LANG=en_US.utf-8
 ENV LC_ALL=en_US.UTF-8
 ENV TZ=CET
 
+RUN addgroup -S zplbox && adduser -S zplbox -G zplbox
+
 RUN apk add chromium
 
 ENV JAVA_HOME=/opt/java/openjdk
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 ENV JAVA_TOOL_OPTIONS="-XX:-TieredCompilation"
 
-COPY --from=jre-build --chown=meixxi:meixxi ["/work/jre", "$JAVA_HOME"]
-COPY --from=java-build --chown=meixxi:meixxi ["/work/app/build/libs/zplbox.jar", "/app/zplbox.jar"]
+COPY --from=jre-build --chown=zplbox:zplbox ["/work/jre", "$JAVA_HOME"]
+COPY --from=java-build --chown=zplbox:zplbox ["/work/app/build/libs/zplbox.jar", "/app/zplbox.jar"]
+
+USER zplbox
 
 ENTRYPOINT [ "java", "-jar", "/app/zplbox.jar"]
 

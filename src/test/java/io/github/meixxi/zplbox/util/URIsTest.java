@@ -1,6 +1,5 @@
-package io.github.meixxi.zplbox.service.render.util;
+package io.github.meixxi.zplbox.util;
 
-import io.github.meixxi.zplbox.util.Urls;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;
@@ -10,7 +9,7 @@ import java.util.Base64;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UrlsTest {
+class URIsTest {
 
     @Test
     void normalize_0() throws Exception {
@@ -20,7 +19,7 @@ class UrlsTest {
         final String dataBase64 = null;
 
         // act
-        Throwable t = assertThrows(IllegalArgumentException.class, () -> Urls.normalize(url, dataBase64));
+        Throwable t = assertThrows(IllegalArgumentException.class, () -> URIs.normalize(url, dataBase64));
 
         // assert
         assertEquals("URL or DataBase64 must be provided.", t.getMessage(), "Error message is wrong.");
@@ -34,7 +33,7 @@ class UrlsTest {
         final String dataBase64 = null;
 
         // act
-        URI result = Urls.normalize(url, dataBase64);
+        URI result = URIs.normalize(url, dataBase64);
 
         // assert
         assertEquals("http://localhost:8080/labels/ups-example.html", result.toString(), "Normalized URL is wrong.");
@@ -49,7 +48,7 @@ class UrlsTest {
         final String dataBase64 = Base64.getEncoder().encodeToString("MY_CONTENT".getBytes());
 
         // act
-        URI result = Urls.normalize(url, dataBase64);
+        URI result = URIs.normalize(url, dataBase64);
 
         // assert
         Path path = Path.of(result);
