@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: ZplBox
   description: |-
-    **ZPL Print Server**; Service to convert HTML/PDF content to ZPL.
+    **ZPL Print Server**; Service to convert HTML or PDF or PNG content to ZPL.
   version: 1.0.0
 servers:
   - url: http://localhost:8080/
@@ -11,6 +11,8 @@ tags:
     description: Conversion of HTML based web content to ZPL.
   - name: PDF
     description: Conversion of PDF Documents to ZPL.
+  - name: PNG
+    description: Conversion of PNG images to ZPL.
   - name: ZPL
     description: Handling of ZPL Documents.
   - name: System
@@ -126,6 +128,40 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 
+  /v1/png2zpl:
+    post:
+      tags:
+        - PNG
+      summary: Conversion of a PNG image to ZPL.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PngRenderingParams'
+      responses:
+        '200':
+          $ref: "#/components/responses/ZplLabelResponse"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /v1/png2zpl/print/{tcpAddress}:
+    post:
+      tags:
+        - PNG
+      summary: Conversion of a PNG image to ZPL and forward to a given TCP Address (ZPL Label Printer).
+      parameters:
+        - $ref: '#/components/parameters/TcpAddress'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PngRenderingParams'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
   /v1/zpl/print/{tcpAddress}:
     post:
       tags:
@@ -230,16 +266,34 @@ components:
       properties:
         url:
           type: string
-          description: The url of the web content to be rendered (conditional). If set, dataBase64 SHALL be undefined.
+          description: The url of the PDF content to be rendered (conditional). If set, dataBase64 SHALL be undefined.
           example: http://localhost:8080/labels/test-label-1.html
         dataBase64:
           type: string
-          description: The Base64 encoded html file (conditional). If set, url SHALL be undefined.
+          description: The Base64 encoded PDF file (conditional). If set, url SHALL be undefined.
           example: PCFkb2N0eXBlIGh0bWw+CjxodG1sIGxhbmc...
         dotsPerInch:
           type: integer
           description: Resolution in dots per inch (dpi).
           example: 203
+        orientation:
+          type: string
+          enum: [ Rotate0, Rotate90, Rotate180, Rotate270 ]
+          description: Rotation of the final ZPL label.
+          default: Rotate0
+
+    PngRenderingParams:
+      type: object
+      required: [dotsPerInch]
+      properties:
+        url:
+          type: string
+          description: The url of the PNG content to be rendered (conditional). If set, dataBase64 SHALL be undefined.
+          example: http://localhost:8080/labels/test-label-1.png
+        dataBase64:
+          type: string
+          description: The Base64 encoded PNG file (conditional). If set, url SHALL be undefined.
+          example: PCFkb2N0eXBlIGh0bWw+CjxodG1sIGxhbmc...
         orientation:
           type: string
           enum: [ Rotate0, Rotate90, Rotate180, Rotate270 ]
