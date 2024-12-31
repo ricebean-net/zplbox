@@ -15,18 +15,24 @@ RUN yarn build
 
 
 # compile and test app
-FROM eclipse-temurin:21-alpine AS java-build
+FROM eclipse-temurin:21 AS java-build
 
 ENV LANGUAGE=en_US
 ENV LANG=en_US.utf-8
 ENV LC_ALL=en_US.UTF-8
 ENV TZ=CET
 
-COPY ["src", "/work/app/src"]
-COPY ["gradle", "/work/app/gradle"]
-COPY ["gradlew", "build.gradle", "settings.gradle", "/work/app/"]
+RUN groupadd zplbox && useradd -g zplbox -r -m zplbox
 
-COPY --from=webapp-builder ["/home/node/app/build", "/work/app/src/main/resources/static"]
+COPY --chown=zplbox:zplbox ["src", "/work/app/src"]
+COPY --chown=zplbox:zplbox ["gradle", "/work/app/gradle"]
+COPY --chown=zplbox:zplbox ["gradlew", "build.gradle", "settings.gradle", "/work/app/"]
+
+COPY --chown=zplbox:zplbox --from=webapp-builder ["/home/node/app/build", "/work/app/src/main/resources/static"]
+
+RUN chown -R zplbox:zplbox /work
+
+USER zplbox
 
 WORKDIR /work/app
 
@@ -51,7 +57,7 @@ RUN $JAVA_HOME/bin/jlink \
 
          
 # create final image
-FROM alpine:3
+FROM debian:latest
 
 ARG VERSION
 ARG COMMIT_SHA
@@ -64,14 +70,24 @@ ENV LANG=en_US.utf-8
 ENV LC_ALL=en_US.UTF-8
 ENV TZ=CET
 
-RUN apk add chromium
+RUN apt update \
+    && apt install -y --no-install-recommends \
+         chromium \
+    && apt clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN groupadd zplbox && useradd -g zplbox -r -m zplbox
 
 ENV JAVA_HOME=/opt/java/openjdk
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 ENV JAVA_TOOL_OPTIONS="-XX:-TieredCompilation"
 
-COPY --from=jre-build --chown=meixxi:meixxi ["/work/jre", "$JAVA_HOME"]
-COPY --from=java-build --chown=meixxi:meixxi ["/work/app/build/libs/zplbox.jar", "/app/zplbox.jar"]
+COPY --chown=zplbox:zplbox --from=jre-build ["/work/jre", "$JAVA_HOME"]
+COPY --chown=zplbox:zplbox --from=java-build ["/work/app/build/libs/zplbox.jar", "/app/zplbox.jar"]
+
+USER zplbox
+
+WORKDIR /app
 
 ENTRYPOINT [ "java", "-jar", "/app/zplbox.jar"]
 

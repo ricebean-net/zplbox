@@ -26,7 +26,7 @@ public class HtmlRenderServiceImpl implements HtmlRenderService {
 
         // construct chromium rendering command
         String[] command = new String[]{
-                "chromium-browser",
+                "chromium",
                 "--headless",
                 "--disable-gpu",
                 "--no-sandbox",
