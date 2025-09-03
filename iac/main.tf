@@ -19,6 +19,12 @@ variable "gitlab_image_name" {
   description = "The full name of the image in the GitLab Container Registry"
 }
 
+variable "gcp_sa_key_json" {
+  type        = string
+  description = "The JSON content of the GCP service account key"
+  sensitive   = true
+}
+
 provider "google" {
   project = var.gcp_project_id
   region  = var.gcp_region
