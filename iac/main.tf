@@ -24,12 +24,6 @@ resource "google_project_iam_binding" "run_admin_iam" {
   ]
 }
 
-resource "google_project_service_identity" "cloud_run_service_identity" {
-  project = var.gcp_project_id
-  provider = google
-}
-
-
 # The Cloud Run service
 resource "google_cloud_run_v2_service" "default" {
   name     = var.service_name
@@ -40,8 +34,6 @@ resource "google_cloud_run_v2_service" "default" {
       image = var.gitlab_image_name
     }
   }
-
-  autogenerate_revision_name = true
 }
 
 # Allow public (unauthenticated) access to the Cloud Run service
