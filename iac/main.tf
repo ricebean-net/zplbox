@@ -14,11 +14,6 @@ resource "google_cloud_run_v2_service" "default" {
     }
   }
 
-  traffic {
-    percent         = 100
-    latest_revision = true
-  }
-
   deletion_protection = false
 }
 
