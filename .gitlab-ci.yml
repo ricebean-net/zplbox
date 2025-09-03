@@ -6,6 +6,10 @@ stages:
   - deploy
   - publish-api
 
+variables:
+  GITLAB_REPO: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}
+  PROJECT_NAME: ${CI_PROJECT_NAME}
+  VERSION: 1.0.${CI_PIPELINE_IID}
 
 .build:
   image: docker:stable
