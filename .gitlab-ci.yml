@@ -6,14 +6,9 @@ stages:
   - deploy
   - destroy
 
-
-
-
-# The OpenTofu component that handles validation, planning, and applying
 include:
   - component: $CI_SERVER_FQDN/components/opentofu/validate-plan-apply@2.13.0
     inputs:
-      opentofu_version: 1.10.3
       root_dir: 'iac/'
       state_name: 'cloud-run'
       apply_rules:
@@ -54,13 +49,12 @@ variables:
 destroy:
   stage: destroy
   image:
-    name: registry.gitlab.com/components/opentofu/gitlab-opentofu:1.10.3-1 # You must specify the OpenTofu image
-  when: manual # IMPORTANT: This makes the job a manual trigger
+    name: registry.gitlab.com/components/opentofu/gitlab-opentofu:1.10.3-1
+  when: manual
   script:
     - cd $CI_PROJECT_DIR/iac/
     - opentofu init
     - opentofu destroy -auto-approve
-  dependencies:
-    - apply # This ensures the job has access to the state file from the apply job
+  allow_failure: false
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
