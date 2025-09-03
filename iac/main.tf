@@ -45,7 +45,7 @@ resource "google_cloud_run_v2_service_iam_binding" "default" {
   name     = google_cloud_run_v2_service.default.name
   location = google_cloud_run_v2_service.default.location
   role     = "roles/run.invoker"
-  members  = [
+  members = [
     "allUsers"
   ]
 }
