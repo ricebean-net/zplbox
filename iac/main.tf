@@ -36,14 +36,6 @@ resource "google_project_iam_binding" "artifact_registry_reader_binding" {
   ]
   depends_on = [google_cloud_run_v2_service.default]
 }
-#
-# resource "google_artifact_registry_repository_iam_member" "cloud_run_repo_reader" {
-#   project    = var.gcp_project_id
-#   location   = var.gcp_region
-#   repository = "gitlab-images" # adjust if your repo name differs
-#   role       = "roles/artifactregistry.reader"
-#   member     = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-run.iam.gserviceaccount.com"
-# }
 
 # The Cloud Run v2 service
 resource "google_cloud_run_v2_service" "default" {
