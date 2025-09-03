@@ -2,8 +2,6 @@
 provider "google" {
   project = var.gcp_project_id
   region  = var.gcp_region
-  # The GitLab CI/CD variable GCP_SA_KEY_JSON will be used for authentication
-  credentials = var.gcp_sa_key_json
 }
 
 # Look up the project number for IAM bindings

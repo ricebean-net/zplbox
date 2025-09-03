@@ -68,7 +68,8 @@ variables:
 
   # The GCP service account key is a masked variable and does not need a TF_VAR_ prefix
   # The `gitlab-tofu` wrapper script automatically handles this.
-  GCP_SA_KEY_JSON: $GCP_SA_KEY_JSON_CONTENT # This is your masked CI/CD variable
+  GOOGLE_APPLICATION_CREDENTIALS: "$GOOGLE_APPLICATION_CREDENTIALS_JSON"
+#  GCP_SA_KEY_JSON: $GCP_SA_KEY_JSON_CONTENT # This is your masked CI/CD variable
 
 # build (test & production)
 #test-build:
