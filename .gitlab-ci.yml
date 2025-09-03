@@ -43,11 +43,11 @@ include:
       state_name: 'cloud-run' # This can be anything, but it's good practice to name it
 
       # Pass your variables to the component
-      variables:
-        gcp_project_id: "zplbox-com" # CHANGE THIS
-        gcp_region: "europe-west1"         # CHANGE THIS
-        service_name: "zplbox" # CHANGE THIS
-        gitlab_image_name: "registry.gitlab.com/ricebean.net/zplbox/zplbox:1.0.4"
+#      variables:
+#        gcp_project_id: "zplbox-com" # CHANGE THIS
+#        gcp_region: "europe-west1"         # CHANGE THIS
+#        service_name: "zplbox" # CHANGE THIS
+#        gitlab_image_name: "registry.gitlab.com/ricebean.net/zplbox/zplbox:1.0.4"
 #        gitlab_image_name: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
 
       # Define the rules for when the 'apply' job should run
@@ -58,6 +58,17 @@ include:
       # The component also has default rules for the 'validate' and 'plan' jobs,
       # which typically run on all branches.
 
+variables:
+  # The component automatically forwards any variable prefixed with `TF_VAR_`
+  TF_VAR_gcp_project_id: "zplbox-com" # CHANGE THIS
+  TF_VAR_gcp_region: "europe-west1"         # CHANGE THIS
+  TF_VAR_service_name: "zplbox" # CHANGE THIS
+  TF_VAR_gitlab_image_name: "registry.gitlab.com/ricebean.net/zplbox/zplbox:1.0.4"
+#  TF_VAR_gitlab_image_name: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+
+  # The GCP service account key is a masked variable and does not need a TF_VAR_ prefix
+  # The `gitlab-tofu` wrapper script automatically handles this.
+  GCP_SA_KEY_JSON: $GCP_SA_KEY_JSON_CONTENT # This is your masked CI/CD variable
 
 # build (test & production)
 #test-build:
