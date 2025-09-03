@@ -13,6 +13,13 @@ resource "google_cloud_run_v2_service" "default" {
       image = var.gitlab_image_name
     }
   }
+
+  traffic {
+    percent         = 100
+    latest_revision = true
+  }
+
+  deletion_protection = false
 }
 
 # Allow public access
