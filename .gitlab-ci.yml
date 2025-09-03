@@ -63,7 +63,7 @@ variables:
   TF_VAR_gcp_project_id: "zplbox-com" # CHANGE THIS
   TF_VAR_gcp_region: "europe-west1"         # CHANGE THIS
   TF_VAR_service_name: "zplbox" # CHANGE THIS
-  TF_VAR_gitlab_image_name: "us-central1-docker.pkg.dev/your-gcp-project-id/gitlab-images/ricebean.net/zplbox/zplbox:1.0.4"
+  TF_VAR_gitlab_image_name: "europe-west1-docker.pkg.dev/your-gcp-project-id/gitlab-images/ricebean.net/zplbox/zplbox:1.0.4"
 #  TF_VAR_gitlab_image_name: "registry.gitlab.com/ricebean.net/zplbox/zplbox:1.0.4"
 #  TF_VAR_gitlab_image_name: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
 
