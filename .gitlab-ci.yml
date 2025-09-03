@@ -1,6 +1,7 @@
 
 ---
 stages:
+  - validate
   - build
   - deploy
 
@@ -33,8 +34,10 @@ stages:
 include:
   - component: $CI_SERVER_FQDN/components/opentofu/validate-plan-apply@2.13.0
     inputs:
+      opentofu_version: 1.10.3
+
       # Tell the component where to find your Terraform/OpenTofu files
-      root_dir: 'iac'
+      root_dir: 'iac/'
 
       # Tell the component which GitLab state to use
       state_name: 'cloud-run' # This can be anything, but it's good practice to name it
