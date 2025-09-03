@@ -12,7 +12,9 @@ variables:
   VERSION: 1.0.${CI_PIPELINE_IID}
 
 .build:
-#  image: docker:stable
+  image: docker:20.10.16 # Use a Docker-in-Docker image
+  services:
+    - docker:20.10.16-dind # The Docker daemon
   script:
     - >
       docker build
