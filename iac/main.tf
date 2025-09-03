@@ -8,6 +8,17 @@ data "google_project" "project" {
   project_id = var.gcp_project_id
 }
 
+# Enable required APIs
+resource "google_project_service" "cloud_run_api" {
+  project = var.gcp_project_id
+  service = "run.googleapis.com"
+}
+
+resource "google_project_service" "artifact_registry_api" {
+  project = var.gcp_project_id
+  service = "artifactregistry.googleapis.com"
+}
+
 # The Cloud Run Service Agent needs these permissions to manage resources
 resource "google_project_iam_binding" "run_admin_binding" {
   project = var.gcp_project_id
@@ -15,26 +26,27 @@ resource "google_project_iam_binding" "run_admin_binding" {
   members = [
     "serviceAccount:service-${data.google_project.project.number}@gcp-sa-run.iam.gserviceaccount.com"
   ]
-  depends_on = [google_cloud_run_v2_service.default]
+  depends_on = [google_project_service.cloud_run_api]
 }
 
-resource "google_project_iam_binding" "service_account_user_binding" {
+resource "google_project_iam_member" "service_account_user" {
   project = var.gcp_project_id
   role    = "roles/iam.serviceAccountUser"
-  members = [
-    "serviceAccount:service-${data.google_project.project.number}@gcp-sa-run.iam.gserviceaccount.com"
-  ]
-  depends_on = [google_cloud_run_v2_service.default]
+  member  = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-run.iam.gserviceaccount.com"
+
+  depends_on = [google_project_service.cloud_run_api]
 }
 
-# This grants the Cloud Run Service Agent permission to read from Artifact Registry
-resource "google_project_iam_binding" "artifact_registry_reader_binding" {
+# Grant the Cloud Run Service Agent permission to read from Artifact Registry
+resource "google_project_iam_member" "artifact_registry_reader" {
   project = var.gcp_project_id
   role    = "roles/artifactregistry.reader"
-  members = [
-    "serviceAccount:service-${data.google_project.project.number}@gcp-sa-run.iam.gserviceaccount.com"
+  member  = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-run.iam.gserviceaccount.com"
+
+  depends_on = [
+    google_project_service.cloud_run_api,
+    google_project_service.artifact_registry_api
   ]
-  depends_on = [google_cloud_run_v2_service.default]
 }
 
 # The Cloud Run v2 service
@@ -47,6 +59,11 @@ resource "google_cloud_run_v2_service" "default" {
       image = var.gitlab_image_name
     }
   }
+
+  depends_on = [
+    google_project_service.cloud_run_api,
+    google_project_service.artifact_registry_api
+  ]
 }
 
 # Allow public (unauthenticated) access to the Cloud Run service
@@ -54,9 +71,9 @@ resource "google_cloud_run_v2_service_iam_binding" "default" {
   name     = google_cloud_run_v2_service.default.name
   location = google_cloud_run_v2_service.default.location
   role     = "roles/run.invoker"
-  members = [
-    "allUsers"
-  ]
+  members  = ["allUsers"]
+
+  depends_on = [google_cloud_run_v2_service.default]
 }
 
 # The URL of the deployed Cloud Run service

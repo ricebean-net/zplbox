@@ -25,6 +25,7 @@ variables:
   TF_VAR_gcp_region: "europe-west1"         # CHANGE THIS
   TF_VAR_service_name: "zplbox" # CHANGE THIS
   TF_VAR_gitlab_image_name: "europe-west1-docker.pkg.dev/zplbox-com/gitlab-images/ricebean.net/zplbox/zplbox:1.0.4"
+
   GOOGLE_APPLICATION_CREDENTIALS: "$GOOGLE_APPLICATION_CREDENTIALS_JSON"
 
 #variables:
