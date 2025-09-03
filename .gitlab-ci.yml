@@ -4,10 +4,10 @@ stages:
   - validate
   - build
   - deploy
-  - destroy
+  - cleanup
 
 include:
-  - component: $CI_SERVER_FQDN/components/opentofu/validate-plan-apply@2.13.0
+  - component: $CI_SERVER_FQDN/components/opentofu/full-pipeline@2.13.0
     inputs:
       root_dir: 'iac/'
       state_name: 'cloud-run'
@@ -47,14 +47,5 @@ variables:
 #    - docker push ${GITLAB_REPO}/${PROJECT_NAME}:${VERSION}
 
 destroy:
-  stage: destroy
-  image:
-    name: registry.gitlab.com/components/opentofu/gitlab-opentofu:latest
-  when: manual
-  script:
-    - cd $CI_PROJECT_DIR/iac/
-    - opentofu init
-    - opentofu destroy -auto-approve
-  allow_failure: false
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    - when: manual
