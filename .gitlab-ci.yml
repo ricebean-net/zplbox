@@ -31,7 +31,7 @@ stages:
 
 # The OpenTofu component that handles validation, planning, and applying
 include:
-  - component: gitlab.com/components/opentofu/validate-plan-apply@2.13.0
+  - component: $CI_SERVER_FQDN/components/opentofu/validate-plan-apply@2.13.0
     inputs:
       # Tell the component where to find your Terraform/OpenTofu files
       root_dir: 'iac'
