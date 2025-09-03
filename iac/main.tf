@@ -6,21 +6,25 @@ provider "google" {
   credentials = var.gcp_sa_key_json
 }
 
-# Grant Cloud Run the necessary permissions to pull images from the GitLab Container Registry
-# This is a critical step for private registries
-resource "google_project_iam_binding" "cloud_run_service_account_iam" {
-  project = var.gcp_project_id
-  role    = "roles/iam.serviceAccountUser"
-  members = [
-    "serviceAccount:${google_project_service_identity.cloud_run_service_identity.service_account_id}"
-  ]
+# Look up the project number for IAM bindings
+data "google_project" "project" {
+  project_id = var.gcp_project_id
 }
 
-resource "google_project_iam_binding" "run_admin_iam" {
+# The Cloud Run Service Agent needs these permissions to manage resources
+resource "google_project_iam_binding" "run_admin_binding" {
   project = var.gcp_project_id
   role    = "roles/run.admin"
   members = [
-    "serviceAccount:${google_project_service_identity.cloud_run_service_identity.service_account_id}"
+    "serviceAccount:service-${data.google_project.project.number}@gcp-sa-run.iam.gserviceaccount.com"
+  ]
+}
+
+resource "google_project_iam_binding" "service_account_user_binding" {
+  project = var.gcp_project_id
+  role    = "roles/iam.serviceAccountUser"
+  members = [
+    "serviceAccount:service-${data.google_project.project.number}@gcp-sa-run.iam.gserviceaccount.com"
   ]
 }
 
