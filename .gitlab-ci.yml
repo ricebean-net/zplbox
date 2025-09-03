@@ -49,7 +49,7 @@ variables:
 destroy:
   stage: destroy
   image:
-    name: registry.gitlab.com/components/opentofu/gitlab-opentofu:1.10.3-1
+    name: registry.gitlab.com/components/opentofu/gitlab-opentofu:latest
   when: manual
   script:
     - cd $CI_PROJECT_DIR/iac/
