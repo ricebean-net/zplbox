@@ -16,6 +16,7 @@ resource "google_project_iam_binding" "run_admin_binding" {
   members = [
     "serviceAccount:service-${data.google_project.project.number}@gcp-sa-run.iam.gserviceaccount.com"
   ]
+  depends_on = [google_cloud_run_v2_service.default]
 }
 
 resource "google_project_iam_binding" "service_account_user_binding" {
@@ -24,6 +25,17 @@ resource "google_project_iam_binding" "service_account_user_binding" {
   members = [
     "serviceAccount:service-${data.google_project.project.number}@gcp-sa-run.iam.gserviceaccount.com"
   ]
+  depends_on = [google_cloud_run_v2_service.default]
+}
+
+# This grants the Cloud Run Service Agent permission to read from Artifact Registry
+resource "google_project_iam_binding" "artifact_registry_reader_binding" {
+  project = var.gcp_project_id
+  role    = "roles/artifactregistry.reader"
+  members = [
+    "serviceAccount:service-${data.google_project.project.number}@gcp-sa-run.iam.gserviceaccount.com"
+  ]
+  depends_on = [google_cloud_run_v2_service.default]
 }
 
 # The Cloud Run service
