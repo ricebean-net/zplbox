@@ -2,9 +2,7 @@
 ---
 stages:
   - build
-  - rotate-secret
   - deploy
-  - publish-api
 
 variables:
   GITLAB_REPO: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}
@@ -31,16 +29,40 @@ variables:
 
 
 # build (test & production)
-test-build:
-  extends: .build
-  stage: build
-  rules:
-    - if: $CI_COMMIT_BRANCH != "main" && $CI_PIPELINE_SOURCE != 'merge_request_event'
-  before_script:
-    - VERSION=${VERSION}-dev
+#test-build:
+#  extends: .build
+#  stage: build
+#  rules:
+#    - if: $CI_COMMIT_BRANCH != "main" && $CI_PIPELINE_SOURCE != 'merge_request_event'
+#  before_script:
+#    - VERSION=${VERSION}-dev
+#
+#prod-build:
+#  extends: .build
+#  stage: build
+#  rules:
+#    - if: $CI_COMMIT_BRANCH == "main"
 
-prod-build:
-  extends: .build
-  stage: build
+# The Terraform deployment stage
+deploy-to-gcp:
+  stage: deploy
+  image:
+    name: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
+    entrypoint:
+      - /usr/bin/env
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  variables:
+    # Set the backend to use GCS for state management
+    TF_VAR_gcp_project_id: "zplbox-com" # CHANGE THIS
+    TF_VAR_gcp_region: "europe-west1"         # CHANGE THIS
+    TF_VAR_service_name: "zplbox" # CHANGE THIS
+    TF_VAR_gitlab_image_name: "registry.gitlab.com/ricebean.net/zplbox/zplbox:1.0.4"
+#    TF_VAR_gitlab_image_name: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+  script:
+    - cd iac
+    - terraform init
+    - terraform validate
+    - terraform plan -out=tfplan
+    - terraform apply -auto-approve tfplan
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
+    - if: '$CI_COMMIT_BRANCH == "main"'
