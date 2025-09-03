@@ -1,7 +1,6 @@
-
 provider "google" {
-  project = var.gcp_project_id
-  region  = var.gcp_region
+  project     = var.gcp_project_id
+  region      = var.gcp_region
 }
 
 # Look up the project number for IAM bindings
@@ -38,7 +37,7 @@ resource "google_project_iam_binding" "artifact_registry_reader_binding" {
   depends_on = [google_cloud_run_v2_service.default]
 }
 
-# The Cloud Run service
+# The Cloud Run v2 service
 resource "google_cloud_run_v2_service" "default" {
   name     = var.service_name
   location = var.gcp_region
