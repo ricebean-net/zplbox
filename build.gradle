@@ -16,7 +16,6 @@ java {
 processResources {
     filesMatching('**/application.yml') {
         expand(
-                appname: 'ZplBox Community Edition',
                 version: project.properties['version'],
                 buildtime: new Date().format("yyyy-MM-dd HH:mm:ss'Z'", TimeZone.getTimeZone("GMT"))
         )
