@@ -5,7 +5,7 @@ provider "google" {
 
 # Cloud Run service
 resource "google_cloud_run_v2_service" "default" {
-  name     = var.service_namefix authorization
+  name     = var.service_name
   location = var.gcp_region
 
   template {
