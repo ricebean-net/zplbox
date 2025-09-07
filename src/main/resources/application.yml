@@ -1,18 +1,28 @@
 app:
-  name: ${appname}
+  name: ZplBox
   version: ${version}
   buildtime: ${buildtime}
 
 
 spring:
+  profiles:
+    active: rapidapi
   main:
     banner-mode: off
-  mandatory-file-encoding: UTF-8
-  http:
-    encoding:
-      charset: UTF-8
-      enabled: true
-  security:
-    user:
-      name: n.a.
-      password: n.a.
+
+---
+# Community Profiles
+spring:
+  config:
+    activate:
+      on-profile: community
+
+---
+# RapidAPI Profiles
+spring:
+  config:
+    activate:
+      on-profile: rapidapi
+
+rapidapi:
+  secret: secret
