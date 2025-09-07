@@ -15,6 +15,7 @@ variables:
   TF_VAR_gcp_region: "europe-west1"
   TF_VAR_service_name: "zplbox"
   TF_VAR_gitlab_image_name: "europe-west1-docker.pkg.dev/zplbox-com/gitlab-images/ricebean.net/${CI_PROJECT_NAME}/${CI_PROJECT_NAME}:${VERSION}"
+  TF_VAR_rapidapi_secret: $RAPID_API_SECRET
 
   GOOGLE_APPLICATION_CREDENTIALS: "$GOOGLE_APPLICATION_CREDENTIALS_JSON"
 

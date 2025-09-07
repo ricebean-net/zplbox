@@ -18,3 +18,9 @@ variable "gitlab_image_name" {
   type        = string
   description = "The full name of the image in the GitLab Container Registry"
 }
+
+variable "rapidapi_secret" {
+  description = "The value for the rapidapi secret environment variable."
+  type        = string
+  sensitive   = true
+}

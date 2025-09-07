@@ -11,6 +11,13 @@ resource "google_cloud_run_v2_service" "default" {
   template {
     containers {
       image = var.gitlab_image_name
+      env {
+        name  = "rapidapi.secret"
+        value = var.rapidapi_secret
+      }
+    }
+    scaling {
+      min_instance_count = 1
     }
   }
 
