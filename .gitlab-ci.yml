@@ -37,7 +37,7 @@ include:
   script:
     - >
       docker build
-      --file Docker.rapid
+      --file Dockerfile.rapid
       --tag ${GITLAB_REPO}/${PROJECT_NAME}:${VERSION}
       --build-arg VERSION=${VERSION}
       --build-arg COMMIT_SHA=${CI_COMMIT_SHA}
