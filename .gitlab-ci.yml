@@ -2,7 +2,6 @@
 ---
 stages:
   - validate
-  - test
   - build
   - deploy
   - cleanup
@@ -54,7 +53,7 @@ include:
 # build (test & production)
 test-build:
   extends: .build
-  stage: test
+  stage: validate
   rules:
     - if: $CI_COMMIT_BRANCH != "main" && $CI_PIPELINE_SOURCE != 'merge_request_event'
   before_script:
