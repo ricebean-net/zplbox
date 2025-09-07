@@ -5,14 +5,14 @@ provider "google" {
 
 # Cloud Run service
 resource "google_cloud_run_v2_service" "default" {
-  name     = var.service_name
+  name     = var.service_namefix authorization
   location = var.gcp_region
 
   template {
     containers {
       image = var.gitlab_image_name
       env {
-        name  = "rapidapi.semax_instance_countcret"
+        name  = "rapidapi.secret"
         value = var.rapidapi_secret
       }
     }
