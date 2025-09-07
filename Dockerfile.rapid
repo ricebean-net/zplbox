@@ -22,7 +22,7 @@ RUN rm /work/app/build/libs/*-plain.jar \
 
 
 # create final image
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:21-jre-alpine
 
 ARG VERSION
 ARG COMMIT_SHA
