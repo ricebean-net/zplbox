@@ -7,10 +7,14 @@ provider "google" {
 resource "google_cloud_run_v2_service" "default" {
   name     = var.service_name
   location = var.gcp_region
+  deletion_protection = false
 
   template {
     containers {
       image = var.gitlab_image_name
+      ports {
+        container_port = 8080
+      }
       env {
         name  = "rapidapi.secret"
         value = var.rapidapi_secret
@@ -21,8 +25,6 @@ resource "google_cloud_run_v2_service" "default" {
       max_instance_count = 5
     }
   }
-
-  deletion_protection = false
 }
 
 # Allow public access
