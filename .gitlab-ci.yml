@@ -23,6 +23,9 @@ include:
     inputs:
       root_dir: 'iac/'
       state_name: 'cloud-run'
+      plan_rules:
+        - if: '$CI_COMMIT_BRANCH == "main"'
+          when: on_success
       apply_rules:
         - if: '$CI_COMMIT_BRANCH == "main"'
           when: on_success
@@ -34,6 +37,7 @@ include:
   script:
     - >
       docker build
+      --file Dockerfile.rapid
       --tag ${GITLAB_REPO}/${PROJECT_NAME}:${VERSION}
       --build-arg VERSION=${VERSION}
       --build-arg COMMIT_SHA=${CI_COMMIT_SHA}

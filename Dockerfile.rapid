@@ -1,0 +1,48 @@
+# compile and test app
+FROM eclipse-temurin:21-alpine AS java-build
+
+ENV LANGUAGE=en_US
+ENV LANG=en_US.utf-8
+ENV LC_ALL=en_US.UTF-8
+ENV TZ=CET
+
+COPY ["src", "/work/app/src"]
+COPY ["gradle", "/work/app/gradle"]
+COPY ["gradlew", "build.gradle", "settings.gradle", "/work/app/"]
+
+WORKDIR /work/app
+
+ARG VERSION=0.0.0
+
+RUN ./gradlew -i build -PprojectVersion=${VERSION} --no-daemon
+
+RUN rm /work/app/build/libs/*-plain.jar \
+    && cp /work/app/build/libs/*.jar /work/app/build/libs/zplbox.jar
+
+
+
+# create final image
+FROM eclipse-temurin:21-jre-alpine
+
+ARG VERSION
+ARG COMMIT_SHA
+
+ENV VERSION=${VERSION}
+ENV COMMIT_SHA=${COMMIT_SHA}
+
+ENV LANGUAGE=en_US
+ENV LANG=en_US.utf-8
+ENV LC_ALL=en_US.UTF-8
+ENV TZ=CET
+
+RUN addgroup -S zplbox && adduser -S zplbox -G zplbox
+
+RUN apk add chromium
+
+COPY --from=java-build --chown=zplbox:zplbox ["/work/app/build/libs/zplbox.jar", "/app/zplbox.jar"]
+
+USER zplbox
+
+ENTRYPOINT [ "java", "-jar", "/app/zplbox.jar"]
+
+EXPOSE 8080
