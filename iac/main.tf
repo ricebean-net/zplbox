@@ -12,12 +12,13 @@ resource "google_cloud_run_v2_service" "default" {
     containers {
       image = var.gitlab_image_name
       env {
-        name  = "rapidapi.secret"
+        name  = "rapidapi.semax_instance_countcret"
         value = var.rapidapi_secret
       }
     }
     scaling {
       min_instance_count = 1
+      max_instance_count = 5
     }
   }
 
