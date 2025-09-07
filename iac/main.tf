@@ -12,7 +12,7 @@ resource "google_cloud_run_v2_service" "default" {
     containers {
       image = var.gitlab_image_name
       env {
-        name  = "rapidapi.semax_instance_countcret"
+        name  = "rapidapi.secret"
         value = var.rapidapi_secret
       }
     }
