@@ -5,8 +5,8 @@ provider "google" {
 
 # Cloud Run service
 resource "google_cloud_run_v2_service" "default" {
-  name     = var.service_name
-  location = var.gcp_region
+  name                = var.service_name
+  location            = var.gcp_region
   deletion_protection = false
 
   template {
