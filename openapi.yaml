@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: ZplBox
+  title: ZplBox Print Server
   description: |-
     **ZPL Print Server**; Service to convert HTML or PDF or PNG content to ZPL.
   version: 1.0.0
@@ -170,10 +170,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/TcpAddress'
       requestBody:
+        description: The raw ZPL string to send.
+        required: true
         content:
-          application/json:
+          text/plain:
             schema:
-              $ref: '#/components/schemas/HtmlRenderingParams'
+              type: string
+              example: "^XA\n^FO50,50^A0N,30,30^FDHello World^FS\n^XZ"
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -237,14 +240,6 @@ components:
       type: object
       required: [widthPts, heightPts]
       properties:
-        url:
-          type: string
-          description: The url of the web content to be rendered (conditional). If set, dataBase64 SHALL be undefined.
-          example: http://localhost:8080/labels/test-label-1.html
-        dataBase64:
-          type: string
-          description: The Base64 encoded html file (conditional). If set, url SHALL be undefined.
-          example: PCFkb2N0eXBlIGh0bWw+CjxodG1sIGxhbmc...
         widthPts:
           type: integer
           description: The target rendered width of the ZPL label in points.
@@ -258,20 +253,30 @@ components:
           enum: [ Rotate0, Rotate90, Rotate180, Rotate270 ]
           description: Rotation of the final ZPL label.
           default: Rotate0
-
+      oneOf:
+        - type: object
+          description: Payload web page (HTML) is referenced by URL.
+          required:
+            - url
+          properties:
+            url:
+              type: string
+              description: The url of the web content to be rendered.
+              example: https://zplbox.org/test-labels/test-label-1.html
+        - type: object
+          description: Payload web page (HTML) is encoded as base64.
+          required:
+            - dataBase64
+          properties:
+            dataBase64:
+              type: string
+              description: The Base64 encoded html file.
+              example: PCFkb2N0eXBlIGh0bWw+CjxodG1sIGxhbmc...
 
     PdfRenderingParams:
       type: object
       required: [dotsPerInch]
       properties:
-        url:
-          type: string
-          description: The url of the PDF content to be rendered (conditional). If set, dataBase64 SHALL be undefined.
-          example: http://localhost:8080/labels/test-label-1.html
-        dataBase64:
-          type: string
-          description: The Base64 encoded PDF file (conditional). If set, url SHALL be undefined.
-          example: PCFkb2N0eXBlIGh0bWw+CjxodG1sIGxhbmc...
         dotsPerInch:
           type: integer
           description: Resolution in dots per inch (dpi).
@@ -281,24 +286,54 @@ components:
           enum: [ Rotate0, Rotate90, Rotate180, Rotate270 ]
           description: Rotation of the final ZPL label.
           default: Rotate0
+      oneOf:
+      - type: object
+        description: Payload PDF is referenced by URL.
+        required:
+          - url
+        properties:
+          url:
+            type: string
+            description: The url of the PDF content to be rendered.
+            example: https://zplbox.org/test-labels/test-label-2.pdf
+      - type: object
+        description: Payload PDF is encoded as base64.
+        required:
+          - dataBase64
+        properties:
+          dataBase64:
+            type: string
+            description: The Base64 encoded PDF file.
+            example: PCFkb2N0eXBlIGh0bWw+CjxodG1sIGxhbmc...
 
     PngRenderingParams:
       type: object
       required: [dotsPerInch]
       properties:
-        url:
-          type: string
-          description: The url of the PNG content to be rendered (conditional). If set, dataBase64 SHALL be undefined.
-          example: http://localhost:8080/labels/test-label-1.png
-        dataBase64:
-          type: string
-          description: The Base64 encoded PNG file (conditional). If set, url SHALL be undefined.
-          example: PCFkb2N0eXBlIGh0bWw+CjxodG1sIGxhbmc...
         orientation:
           type: string
           enum: [ Rotate0, Rotate90, Rotate180, Rotate270 ]
           description: Rotation of the final ZPL label.
           default: Rotate0
+      oneOf:
+        - type: object
+          description: Payload PNG is referenced by URL.
+          required:
+            - url
+          properties:
+            url:
+              type: string
+              description: The url of the PNG image to be rendered.
+              example: https://zplbox.org/test-labels/test-label-3.png
+        - type: object
+          description: Payload PNG is encoded as base64.
+          required:
+            - dataBase64
+          properties:
+            dataBase64:
+              type: string
+              description: The Base64 encoded PNG file.
+              example: PCFkb2N0eXBlIGh0bWw+CjxodG1sIGxhbmc...
 
     ProblemDetails:
       type: object
