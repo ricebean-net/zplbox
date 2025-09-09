@@ -6,7 +6,7 @@ app:
 
 spring:
   profiles:
-    active: rapidapi
+    active: community
   main:
     banner-mode: off
 
@@ -17,12 +17,18 @@ spring:
     activate:
       on-profile: community
 
+app:
+  edition: Community
+
 ---
 # RapidAPI Profiles
 spring:
   config:
     activate:
       on-profile: rapidapi
+
+app:
+  edition: Cloud
 
 rapidapi:
   secret: secret

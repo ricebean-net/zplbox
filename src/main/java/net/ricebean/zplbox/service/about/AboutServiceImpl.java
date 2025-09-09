@@ -16,6 +16,9 @@ public class AboutServiceImpl implements AboutService {
     @Value("${app.name}")
     private String appName;
 
+    @Value("${app.edition}")
+    private String appEdition;
+
     @Value("${app.version}")
     private String appVersion;
 
@@ -55,7 +58,7 @@ public class AboutServiceImpl implements AboutService {
 
     @Override
     public String getAppName() {
-        return this.appName;
+        return String.format("%s %s Edition", this.appName, this.appEdition);
     }
 
     @Override
