@@ -15,6 +15,12 @@ resource "google_cloud_run_v2_service" "default" {
       ports {
         container_port = 8080
       }
+      resources {
+        limits = {
+          cpu    = "1"
+          memory = "2Gi"
+        }
+      }
       env {
         name  = "rapidapi.secret"
         value = var.rapidapi_secret
