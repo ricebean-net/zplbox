@@ -1,15 +1,14 @@
-name: Build ZplBox Image
+name: Build and Publish ZplBox Image on Tag
 
 on:
   push:
-    branches: ["main"]
-    paths-ignore: ["**/README.md", "site/**"]
+    tags:
+      - 'v*' # Triggers on tags like v1.0, v1.2.3, etc.
   workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ricebean-net/zplbox
-  VERSION: 1.1.${{github.run_number}}
 
 jobs:
   deploy-image:
@@ -31,6 +30,9 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract tag name
+        run: echo "VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
 
       - name: Build Docker Image
         run: |-
