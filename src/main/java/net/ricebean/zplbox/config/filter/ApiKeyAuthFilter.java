@@ -4,6 +4,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import net.ricebean.zplbox.config.RapidApiSecurityConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +20,8 @@ import java.io.IOException;
 @Component
 @Profile("rapidapi")
 public class ApiKeyAuthFilter extends OncePerRequestFilter {
+
+    private static final Logger log = LoggerFactory.getLogger(RapidApiSecurityConfig.class);
 
     private static final String API_SECRET_HEADER = "X-RapidAPI-Proxy-Secret";
 
@@ -37,6 +42,8 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+        } else {
+            log.info("Secret is wrong: {}", requestSecret);
         }
 
         filterChain.doFilter(request, response);
