@@ -32,21 +32,8 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        log.info("check headers...");
-
-        // Log all headers and their values
-        log.info("Logging all request headers:");
-
-        Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            String headerValue = request.getHeader(headerName);
-            log.info("{}: {}", headerName, headerValue);
-        }
 
         String requestSecret = request.getHeader(API_SECRET_HEADER);
-
-
 
         if (rapidapiSecret.equals(requestSecret)) {
             var authentication = new UsernamePasswordAuthenticationToken(
@@ -55,10 +42,7 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
                     AuthorityUtils.createAuthorityList("ROLE_USER") // authorities
             );
 
-            log.info("Headers ok...");
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } else {
-            log.info("Secret is wrong: {}", requestSecret);
         }
 
         filterChain.doFilter(request, response);
