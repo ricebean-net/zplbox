@@ -12,7 +12,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @SpringBootApplication
-//@EnableWebSecurity
+@EnableWebSecurity
 public class Application {
 
 	private static final Logger log = LoggerFactory.getLogger(Application.class);
