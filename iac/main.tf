@@ -17,9 +17,10 @@ resource "google_cloud_run_v2_service" "default" {
       }
       resources {
         limits = {
-          cpu    = "2"
-          memory = "4Gi"
+          cpu    = "4"
+          memory = "16Gi"
         }
+        startup_cpu_boost = true
       }
       env {
         name  = "rapidapi.secret"
@@ -27,7 +28,7 @@ resource "google_cloud_run_v2_service" "default" {
       }
     }
     scaling {
-      min_instance_count = 1
+      min_instance_count = 0
       max_instance_count = 5
     }
   }
