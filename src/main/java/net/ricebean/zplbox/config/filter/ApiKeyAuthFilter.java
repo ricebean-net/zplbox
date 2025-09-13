@@ -34,6 +34,16 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         log.info("check headers...");
 
+        // Log all headers and their values
+        log.info("Logging all request headers:");
+
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            String headerValue = request.getHeader(headerName);
+            log.info("{}: {}", headerName, headerValue);
+        }
+
         String requestSecret = request.getHeader(API_SECRET_HEADER);
 
 
@@ -48,16 +58,6 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
             log.info("Secret is wrong: {}", requestSecret);
-
-            // Log all headers and their values
-            log.info("Logging all request headers:");
-
-            Enumeration<String> headerNames = request.getHeaderNames();
-            while (headerNames.hasMoreElements()) {
-                String headerName = headerNames.nextElement();
-                String headerValue = request.getHeader(headerName);
-                log.info("{}: {}", headerName, headerValue);
-            }
         }
 
         filterChain.doFilter(request, response);
