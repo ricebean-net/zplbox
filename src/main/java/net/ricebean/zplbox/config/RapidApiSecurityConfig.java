@@ -28,7 +28,7 @@ public class RapidApiSecurityConfig {
     @Autowired
     private ApiKeyAuthFilter apiKeyAuthFilter;
 
-    @Bean
+//    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -43,7 +43,7 @@ public class RapidApiSecurityConfig {
         return http.build();
     }
 
-    @Bean
+//    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("*"));
