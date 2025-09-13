@@ -55,6 +55,7 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
                     AuthorityUtils.createAuthorityList("ROLE_USER") // authorities
             );
 
+            log.info("Headers ok...");
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
             log.info("Secret is wrong: {}", requestSecret);
