@@ -4,7 +4,6 @@ stages:
   - validate
   - build
   - deploy
-  - cleanup
 
 variables:
   GITLAB_REPO: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}
@@ -20,7 +19,7 @@ variables:
   GOOGLE_APPLICATION_CREDENTIALS: "$GOOGLE_APPLICATION_CREDENTIALS_JSON"
 
 include:
-  - component: $CI_SERVER_FQDN/components/opentofu/full-pipeline@2.13.0
+  - component: $CI_SERVER_FQDN/components/opentofu/validate-plan-apply@2.13.0
     inputs:
       root_dir: 'iac/'
       state_name: 'cloud-run'
