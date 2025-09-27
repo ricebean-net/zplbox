@@ -1,0 +1,8 @@
+# Paths to exclude from the public GitHub repository.
+# Comments are ignored.
+
+iac/
+
+# You can also use globs and regex markers
+# glob:*.lic
+# regex:.*\.test$

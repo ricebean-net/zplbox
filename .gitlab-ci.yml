@@ -4,64 +4,98 @@ stages:
   - validate
   - build
   - deploy
+  - publish
 
-variables:
-  GITLAB_REPO: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}
-  PROJECT_NAME: ${CI_PROJECT_NAME}
-  VERSION: 1.0.${CI_PIPELINE_IID}
+# variables:
+#   GITLAB_REPO: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}
+#   PROJECT_NAME: ${CI_PROJECT_NAME}
+#   VERSION: 1.0.${CI_PIPELINE_IID}
 
-  TF_VAR_gcp_project_id: "zplbox-com"
-  TF_VAR_gcp_region: "europe-west1"
-  TF_VAR_service_name: "zplbox"
-  TF_VAR_gitlab_image_name: "europe-west1-docker.pkg.dev/zplbox-com/gitlab-images/ricebean.net/${CI_PROJECT_NAME}/${CI_PROJECT_NAME}:${VERSION}"
-  TF_VAR_rapidapi_secret: $RAPID_API_SECRET
+#   TF_VAR_gcp_project_id: "zplbox-com"
+#   TF_VAR_gcp_region: "europe-west1"
+#   TF_VAR_service_name: "zplbox"
+#   TF_VAR_gitlab_image_name: "europe-west1-docker.pkg.dev/zplbox-com/gitlab-images/ricebean.net/${CI_PROJECT_NAME}/${CI_PROJECT_NAME}:${VERSION}"
+#   TF_VAR_rapidapi_secret: $RAPID_API_SECRET
 
-  GOOGLE_APPLICATION_CREDENTIALS: "$GOOGLE_APPLICATION_CREDENTIALS_JSON"
+#   GOOGLE_APPLICATION_CREDENTIALS: "$GOOGLE_APPLICATION_CREDENTIALS_JSON"
 
-include:
-  - component: $CI_SERVER_FQDN/components/opentofu/validate-plan-apply@2.13.0
-    inputs:
-      root_dir: 'iac/'
-      state_name: 'cloud-run'
-      apply_rules:
-        - if: '$CI_COMMIT_BRANCH == "main"'
-          when: on_success
-    rules:
-      - if: '$CI_COMMIT_BRANCH == "main"'
+# include:
+#   - component: $CI_SERVER_FQDN/components/opentofu/validate-plan-apply@2.13.0
+#     inputs:
+#       root_dir: 'iac/'
+#       state_name: 'cloud-run'
+#       apply_rules:
+#         - if: '$CI_COMMIT_BRANCH == "main"'
+#           when: on_success
+#     rules:
+#       - if: '$CI_COMMIT_BRANCH == "main"'
 
-.build:
-  image: docker:20.10.16
-  services:
-    - docker:20.10.16-dind
+# .build:
+#   image: docker:20.10.16
+#   services:
+#     - docker:20.10.16-dind
+#   script:
+#     - >
+#       docker build
+#       --file Dockerfile.rapidapi
+#       --tag ${GITLAB_REPO}/${PROJECT_NAME}:${VERSION}
+#       --build-arg VERSION=${VERSION}
+#       --build-arg COMMIT_SHA=${CI_COMMIT_SHA}
+#       --build-arg COMMIT_SHORT_SHA=${CI_COMMIT_SHORT_SHA}
+#       --build-arg PIPELINE_ID=${CI_PIPELINE_ID}
+#       --build-arg PIPELINE_IID=${CI_PIPELINE_IID}
+#       --build-arg USER_NAME=${GITLAB_USER_LOGIN}
+#       .
+#     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD ${GITLAB_REPO}
+#     - docker push ${GITLAB_REPO}/${PROJECT_NAME}:${VERSION}
+
+# # build (test & production)
+# test-build:
+#   extends: .build
+#   stage: validate
+#   rules:
+#     - if: $CI_COMMIT_BRANCH != "main" && $CI_PIPELINE_SOURCE != 'merge_request_event'
+#   before_script:
+#     - VERSION=${VERSION}-dev
+
+# prod-build:
+#   extends: .build
+#   stage: build
+#   rules:
+#     - if: $CI_COMMIT_BRANCH == "main"
+
+publish_to_github:
+  stage: deploy
+  image: python:3.9-slim
   script:
-    - >
-      docker build
-      --file Dockerfile.rapidapi
-      --tag ${GITLAB_REPO}/${PROJECT_NAME}:${VERSION}
-      --build-arg VERSION=${VERSION}
-      --build-arg COMMIT_SHA=${CI_COMMIT_SHA}
-      --build-arg COMMIT_SHORT_SHA=${CI_COMMIT_SHORT_SHA}
-      --build-arg PIPELINE_ID=${CI_PIPELINE_ID}
-      --build-arg PIPELINE_IID=${CI_PIPELINE_IID}
-      --build-arg USER_NAME=${GITLAB_USER_LOGIN}
-      .
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD ${GITLAB_REPO}
-    - docker push ${GITLAB_REPO}/${PROJECT_NAME}:${VERSION}
+    # 1. Install dependencies: git and the filter tool.
+    - apt-get update && apt-get install -y git
+    - pip install git-filter-repo
 
-# build (test & production)
-test-build:
-  extends: .build
-  stage: validate
+    # 2. Clone the full enterprise repo using a special CI token.
+    #    This is more reliable than using a shallow clone.
+    - git clone "https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" public_repo
+    - cd ${CI_PROJECT_NAME}
+
+    # 3. Configure git user for the new commits.
+    - git config user.name "ricebean.net Code Publisher"
+    - git config user.email "noreply@ricebean.net"
+
+    # 4. THIS IS THE FILTERING STEP!
+    #    Rewrite the history to KEEP only the paths you want public.
+    #    Add all the files and folders you want to sync here.
+    - git filter-repo --invert-paths --paths-from-file .github-exclude-paths.txt
+
+    # 5. Add the public GitHub repository as a remote named 'community'.
+    #    Replace <USERNAME> and <REPONAME> with your GitHub details.
+    #    We use the GITHUB_PAT variable for authentication.
+    - git remote add community "https://oauth2:${GITHUB_PAT}@github.com/<USERNAME>/<REPONAME>.git"
+
+    # 6. Force-push the rewritten history to the main branch on GitHub.
+    #    The '--all' flag pushes all branches, but since we cloned fresh, it's just 'main'.
+    #    '-f' is required because the history is different each time.
+    - git push -f --all community
+
+  # This rule ensures the job ONLY runs on pushes to the 'main' branch.
   rules:
-    - if: $CI_COMMIT_BRANCH != "main" && $CI_PIPELINE_SOURCE != 'merge_request_event'
-  before_script:
-    - VERSION=${VERSION}-dev
-
-prod-build:
-  extends: .build
-  stage: build
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-
-
-
+    - if: '$CI_COMMIT_BRANCH == "main"'
