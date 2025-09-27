@@ -74,8 +74,8 @@ publish_to_github:
 
     # 2. Clone the full enterprise repo using a special CI token.
     #    This is more reliable than using a shallow clone.
-    - git clone "https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" public_repo
-    - cd ${CI_PROJECT_NAME}
+    - git clone "https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" zplbox
+    - cd zplbox
 
     # 3. Configure git user for the new commits.
     - git config user.name "ricebean.net Code Publisher"
