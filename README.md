@@ -10,8 +10,7 @@ Whether you submit your content as a web file, a URL, or a PDF, ZplBox provides 
 as a string or send it directly to your printer. This unique approach leverages modern web and document technologies to create
 dynamic and complex labels that are nearly impossible to achieve with native ZPL alone.
 
-ZplBox offers a flexible and powerful solution for generating ZPL labels, whether you use our **Self-Hosted ZPL Print Server** or 
-our convenient **Cloud-Hosted Service**.
+ZplBox offers a flexible and powerful solution for generating ZPL labels, whether you use our **Self-Hosted ZPL Print Server** or our convenient **Cloud-Hosted Service**.
 
 ## Documentation and Examples 
 For a complete guide, technical documentation, and additional code examples, please visit **https://zplbox.org**.
