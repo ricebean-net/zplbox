@@ -51,7 +51,7 @@ jobs:
       - name: Get Tag Commit Message
         id: get_commit_message
         run: |
-          COMMIT_MSG=$(git log -1 --pretty=format:%s ${{env.VERSION}})
+          COMMIT_MSG=$(git tag -l --format='%(contents)' ${{ env.VERSION }})
           echo "commit_msg=$COMMIT_MSG" >> $GITHUB_OUTPUT
 
       - name: Create Release
