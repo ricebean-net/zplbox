@@ -60,7 +60,7 @@ jobs:
           tag_name: ${{env.VERSION}}
           name: Release ${{env.VERSION}}
           body: |
-            ${{ steps.get_commit_message.outputs.commit_msg }}  
+            **${{ steps.get_commit_message.outputs.commit_msg }}**  
 
             Install Docker image from the command line:
             ```
