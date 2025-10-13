@@ -48,16 +48,23 @@ jobs:
           docker push "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
           docker push "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{env.VERSION}}"
 
+      - name: Get Tag Commit Message
+        id: get_commit_message
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=format:%s ${{env.VERSION}})
+          echo "commit_msg=$COMMIT_MSG" >> $GITHUB_OUTPUT
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{env.VERSION}}
           name: Release ${{env.VERSION}}
           body: |
-            ## Docker Image Reference
-            `${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{env.VERSION}}`
+            ${{ steps.get_commit_message.outputs.commit_msg }}  
 
-            # Changelog and Details...
-            tbd
+            Install Docker image from the command line:
+            ```
+            $ docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{env.VERSION}}
+            ```
           draft: false
           prerelease: false
