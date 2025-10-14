@@ -12,10 +12,21 @@ dynamic and complex labels that are nearly impossible to achieve with native ZPL
 
 ZplBox offers a flexible and powerful solution for generating ZPL labels, whether you use our **Self-Hosted ZPL Print Server** or our convenient **Cloud-Hosted Service**.
 
+## Quick Start
+ZplBox is designed as a Docker container what can be started using this command:
+```shell
+$ docker run -p 8080:8080 ghcr.io/ricebean-net/zplbox:latest
+```
+ZplBox comes with an intuitive user interface (UI) designed to help you get started with ZplBox and its API 
+effortlessly. The UI allows you to manually convert HTML and PDF files to ZPL (Zebra Programming Language) and
+send the generated ZPL labels directly to a printer. 
+
+Once the docker container is started, you can access the interface at http://localhost:8080.
+
 ## Documentation and Examples 
 For a complete guide, technical documentation, and additional code examples, please visit **https://zplbox.org**.
 
-* **Quick Start:** Get up and running fast with our step-by-step guide.
+* **Extended Quick Start:** Get up and running fast with our step-by-step guide.
 * **API Reference:** Explore the full API with our visual Swagger documentation.
 * **Test Labels:** View and run examples for both HTML and PDF labels.
 * **Code Examples:** Find code snippets for common use cases.
