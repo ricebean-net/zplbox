@@ -10,9 +10,14 @@ Whether you submit your content as a web file, a URL, or a PDF, ZplBox provides 
 as a string or send it directly to your printer. This unique approach leverages modern web and document technologies to create
 dynamic and complex labels that are nearly impossible to achieve with native ZPL alone.
 
-ZplBox offers a flexible and powerful solution for generating ZPL labels, whether you use our **Self-Hosted ZPL Print Server** or our convenient **Cloud-Hosted Service**.
+ZplBox offers a flexible and powerful solution for generating ZPL labels, whether you use our [**Cloud-Hosted Service**](https://rapidapi.com/ricebean-ricebean-default/api/zplbox2) or our convenient [**Self-Hosted ZPL Print Server**](https://zplbox.org/#zpl-print-server).
 
-## Quick Start
+## Cloud-Hosted Service (*hosted*)
+Our cloud-hosted ZplBox API, available on RapidAPI, provides a seamless, serverless experience for your label generation needs.
+
+[**ZplBox at RapidAPI >>**](https://rapidapi.com/ricebean-ricebean-default/api/zplbox2)
+
+## Quick Start *(self-hosted)*
 ZplBox is designed as a Docker container what can be started using this command:
 ```shell
 $ docker run -p 8080:8080 ghcr.io/ricebean-net/zplbox:latest
