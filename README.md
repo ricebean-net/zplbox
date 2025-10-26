@@ -17,7 +17,25 @@ Our cloud-hosted ZplBox API, available on RapidAPI, provides a seamless, serverl
 
 [**ZplBox at RapidAPI >>**](https://rapidapi.com/ricebean-ricebean-default/api/zplbox2)
 
-## Quick Start *(self-hosted)*
+### Quick Start
+Create a ZPL label of test label https://zplbox.org/test-labels/test-label-2.pdf:
+```shell
+$ curl --request POST 
+	--url https://zplbox2.p.rapidapi.com/v1/pdf2zpl 
+	--header 'Accept: text/plain' 
+	--header 'Content-Type: application/json' 
+	--header 'x-rapidapi-host: zplbox2.p.rapidapi.com' 
+	--header 'x-rapidapi-key: [YOUR_API_KEY]' 
+	--data '{"url":"https://zplbox.org/test-labels/test-label-2.pdf","dotsPerInch":203,"orientation":"Rotate0"}'
+    --output my-zpl-label.txt
+```
+
+...and send result to the printer via TCP. Zebra printers are listening on port 9100 by default:
+```shell
+nc -N 192.168.100.42 9100 < my-zpl-label.txt
+```
+
+## Community Edition *(self-hosted)*
 ZplBox is designed as a Docker container what can be started using this command:
 ```shell
 $ docker run -p 8080:8080 ghcr.io/ricebean-net/zplbox:latest
