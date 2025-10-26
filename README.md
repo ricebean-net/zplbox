@@ -30,10 +30,11 @@ $ curl --request POST
     --output my-zpl-label.txt
 ```
 
-...and send result to the printer via TCP. Zebra printers are listening on port 9100 by default:
+To print a file containing ZPL code (_e. g. my-zpl-label.txt_), use the `netcat` (`nc`) command-line utility, available on **macOS** and **Linux**. Zebra printers are listening on port 9100 by default:
 ```shell
-nc -N 192.168.100.42 9100 < my-zpl-label.txt
+$ nc -N 192.168.100.42 9100 < my-zpl-label.txt
 ```
+If you are using **Windows**, the official replacement for Netcat is Ncat, which is included with the popular Nmap network utility.
 
 ## Community Edition *(self-hosted)*
 ZplBox is designed as a Docker container what can be started using this command:
