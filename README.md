@@ -21,12 +21,12 @@ Our cloud-hosted ZplBox API, available on RapidAPI, provides a seamless, serverl
 Create a ZPL label of test label https://zplbox.org/test-labels/test-label-2.pdf:
 ```shell
 $ curl --request POST 
-	--url https://zplbox2.p.rapidapi.com/v1/pdf2zpl 
-	--header 'Accept: text/plain' 
-	--header 'Content-Type: application/json' 
-	--header 'x-rapidapi-host: zplbox2.p.rapidapi.com' 
-	--header 'x-rapidapi-key: [YOUR_API_KEY]' 
-	--data '{"url":"https://zplbox.org/test-labels/test-label-2.pdf","dotsPerInch":203,"orientation":"Rotate0"}'
+    --url https://zplbox2.p.rapidapi.com/v1/pdf2zpl 
+    --header 'Accept: text/plain' 
+    --header 'Content-Type: application/json' 
+    --header 'x-rapidapi-host: zplbox2.p.rapidapi.com' 
+    --header 'x-rapidapi-key: [YOUR_API_KEY]' 
+    --data '{"url":"https://zplbox.org/test-labels/test-label-2.pdf","dotsPerInch":203,"orientation":"Rotate0"}'
     --output my-zpl-label.txt
 ```
 
