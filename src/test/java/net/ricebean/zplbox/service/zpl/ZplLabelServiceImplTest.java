@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,14 +42,14 @@ class ZplLabelServiceImplTest {
 
         // arrange
         InputStream is = ZplLabelServiceImplTest.class.getResourceAsStream("/net/ricebean/zplbox/service/zpl/label-1-mono.png");
-        BufferedImage img = ImageIO.read(is);
+        List<BufferedImage> images = List.of(ImageIO.read(is));
 
         // act
-        String zplData = zplLabelService.createLabel(img);
+        String zplData = zplLabelService.createZplData(images);
 
         // assert
         assertNotNull(zplData, "Result is null.");
-//        System.out.println(zplData);
+        System.out.println(zplData);
     }
 
 }

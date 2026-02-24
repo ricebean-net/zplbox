@@ -6,27 +6,37 @@ import org.springframework.stereotype.Service;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ZplServiceImpl implements ZplService {
 
     @Override
-    public String createLabel(BufferedImage bufferedImage) {
+    public String createZplData(List<BufferedImage> bufferedImages) {
+        List<String> labels = new ArrayList<>();
 
-        // convert to grf bytes
-        byte[] grfBytes = createGrfBytes(bufferedImage);
+        // iterate over buffered images
+        for(BufferedImage bufferedImage: bufferedImages) {
 
-        // create and return final ZPL data
-        return String.format("""
-                ^XA
-                ^FO0,0^GFA,%d,%d,%d,%s
-                ^XZ
-                """,
-                grfBytes.length,
-                grfBytes.length,
-                grfBytes.length / bufferedImage.getHeight(),
-                Hex.encodeHexString(grfBytes)
-                );
+            // convert to grf bytes
+            byte[] grfBytes = createGrfBytes(bufferedImage);
+
+            // create final ZPL data
+            labels.add(String.format("""
+                            ^XA
+                            ^FO0,0^GFA,%d,%d,%d,%s
+                            ^XZ
+                            """,
+                    grfBytes.length,
+                    grfBytes.length,
+                    grfBytes.length / bufferedImage.getHeight(),
+                    Hex.encodeHexString(grfBytes)
+            ));
+        }
+
+        // join and return labels
+        return String.join("", labels);
     }
 
     /**

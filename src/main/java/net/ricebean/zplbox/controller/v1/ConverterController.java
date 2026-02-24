@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Objects;
 
 import static org.springframework.http.MediaType.*;
@@ -74,11 +75,11 @@ public abstract class ConverterController<T extends RenderingParams> {
 
         try {
             // render web content
-            BufferedImage bufferedImage = renderContent(renderingParams);
+            List<BufferedImage> bufferedImages = renderContent(renderingParams);
 
             // create response
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, "png", bos);
+            ImageIO.write(bufferedImages.getFirst(), "png", bos);
             return Responses.createOkResponse(bos.toByteArray(), IMAGE_PNG_VALUE);
 
         } catch (Exception ex) {
@@ -94,16 +95,16 @@ public abstract class ConverterController<T extends RenderingParams> {
     private String createZplData(T renderingParams) throws Exception {
 
         // render web content
-        BufferedImage bufferedImage = renderContent(renderingParams);
+        List<BufferedImage> bufferedImages = renderContent(renderingParams);
 
-        // rotate image
-        bufferedImage = imageService.rotate(bufferedImage, renderingParams.getOrientation().getDegrees());
-
-        // convert to monochrome
-        bufferedImage = imageService.convertToMonochrome(bufferedImage);
+        // adjust buffered images
+        bufferedImages = bufferedImages.stream()
+                .map(bufferedImage -> imageService.rotate(bufferedImage, renderingParams.getOrientation().getDegrees()))
+                .map(bufferedImage -> imageService.convertToMonochrome(bufferedImage))
+                .toList();
 
         // create and return ZPL data
-        return zplService.createLabel(bufferedImage);
+        return zplService.createZplData(bufferedImages);
     }
 
     /**
@@ -111,7 +112,7 @@ public abstract class ConverterController<T extends RenderingParams> {
      * @param renderingParams The rendering params.
      * @return The rendered content as buffered image.
      */
-    private BufferedImage renderContent(T renderingParams) throws Exception {
+    private List<BufferedImage> renderContent(T renderingParams) throws Exception {
         URI sourceUri = null;
 
         try {
@@ -135,5 +136,5 @@ public abstract class ConverterController<T extends RenderingParams> {
      * @param renderingParams Rendering parameters.
      * @return The rendered content as buffered image.
      */
-    protected abstract BufferedImage renderContent(T renderingParams, URI sourceUri) throws Exception;
+    protected abstract List<BufferedImage> renderContent(T renderingParams, URI sourceUri) throws Exception;
 }

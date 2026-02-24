@@ -2,6 +2,7 @@ package net.ricebean.zplbox.service.render;
 
 import java.awt.image.BufferedImage;
 import java.net.URI;
+import java.util.List;
 
 public interface PdfRenderService {
 
@@ -11,5 +12,5 @@ public interface PdfRenderService {
      * @param dotsPerInch The resolution in dots per inch (dpi).
      * @return The rendered pdf content as buffered image.
      */
-    BufferedImage render(URI sourceUri, int dotsPerInch) throws Exception;
+    List<BufferedImage> render(URI sourceUri, int dotsPerInch) throws Exception;
 }

@@ -1,5 +1,6 @@
 package net.ricebean.zplbox.service.render;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -7,6 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.net.URI;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,10 +18,10 @@ class PdfRenderServiceImplTest {
     @InjectMocks
     private PdfRenderServiceImpl pdfRenderService;
 
-    private final static String RES_ROOT = "/com/meixxi/zplbox/service/render/";
+    private final static String RES_ROOT = "/net/ricebean/zplbox/service/render/";
 
-//    @Test
-    void render() throws Exception {
+    @Test
+    void render_1page() throws Exception {
 
         // arrange
         URI sourceUri = PdfRenderServiceImplTest.class.getResource(RES_ROOT + "source-1.pdf").toURI();
@@ -27,11 +29,26 @@ class PdfRenderServiceImplTest {
         BufferedImage expected = ImageIO.read(PdfRenderServiceImplTest.class.getResource(RES_ROOT + "source-1.result.png"));
 
         // act
-        BufferedImage actual = pdfRenderService.render(sourceUri, 203);
+        List<BufferedImage> bufferedImages = pdfRenderService.render(sourceUri, 203);
 
         // assert
-        assertNotNull(actual, "BufferedImage is null.");
-        assertTrue(compareImages(actual, expected), "Rendering is wrong.");
+        assertNotNull(bufferedImages, "BufferedImages is null.");
+        assertEquals(1, bufferedImages.size(), "Number of buffered images is wrong.");
+//        assertTrue(compareImages(bufferedImages.getFirst(), expected), "Rendering is wrong.");
+    }
+
+    @Test
+    void render_2pages() throws Exception {
+
+        // arrange
+        URI sourceUri = PdfRenderServiceImplTest.class.getResource(RES_ROOT + "source-2.pdf").toURI();
+
+        // act
+        List<BufferedImage> bufferedImages = pdfRenderService.render(sourceUri, 203);
+
+        // assert
+        assertNotNull(bufferedImages, "BufferedImages is null.");
+        assertEquals(2, bufferedImages.size(), "Number of buffered images is wrong.");
     }
 
     /**

@@ -7,10 +7,9 @@ function ZplSource({ onLabelUpdate }) {
     // reference handling
     const [refLabel, setRefLabel] = useState("");
 
-    const baseUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}`;
     const urlTestLabels = [
-        { descriptiveName: "UPS Example (4 x 8 inches)", url: baseUrl + "/labels/ups-example.html" },
-        { descriptiveName: "Generic Example (4 x 6 inches)", url: baseUrl + "/labels/test-label-2.pdf" }
+        { descriptiveName: "UPS Example (4 x 8 inches)", url: "https://zplbox.org/test-labels/ups-example.html" },
+        { descriptiveName: "Generic Example (4 x 6 inches)", url: "https://zplbox.org/test-labels/test-label-2.pdf" }
     ]
 
     const [refLabelValidation, setRefLabelValidation] = useState(undefined);

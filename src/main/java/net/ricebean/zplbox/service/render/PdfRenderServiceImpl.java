@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PdfRenderServiceImpl implements PdfRenderService {
 
     @Override
-    public BufferedImage render(URI sourceUri, int dotsPerInch) throws Exception {
+    public List<BufferedImage> render(URI sourceUri, int dotsPerInch) throws Exception {
 
         // load URI as byte array
         byte[] bytes = URIs.readAllBytes(sourceUri);
@@ -23,7 +25,14 @@ public class PdfRenderServiceImpl implements PdfRenderService {
         PDFRenderer pdfRenderer = new PDFRenderer(document);
 
         // render and return
-        return pdfRenderer.renderImageWithDPI(0, dotsPerInch, ImageType.RGB);
+        List<BufferedImage> bufferedImages = new ArrayList<>();
+
+        for(int i = 0; i < document.getNumberOfPages(); i ++) {
+            bufferedImages.add(pdfRenderer.renderImageWithDPI(i, dotsPerInch, ImageType.RGB));
+        }
+
+        // return buffered images
+        return bufferedImages;
     }
 
 

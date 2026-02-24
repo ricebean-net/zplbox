@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.awt.image.BufferedImage;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/pdf2zpl")
@@ -20,7 +21,7 @@ public class Pdf2ZplController extends ConverterController<PdfRenderingParams> {
     private PdfRenderService pdfRenderService;
 
     @Override
-    protected BufferedImage renderContent(PdfRenderingParams pdfRenderingParams, URI sourceUri) throws Exception {
+    protected List<BufferedImage> renderContent(PdfRenderingParams pdfRenderingParams, URI sourceUri) throws Exception {
         return pdfRenderService.render(sourceUri, pdfRenderingParams.getDotsPerInch());
     }
 }

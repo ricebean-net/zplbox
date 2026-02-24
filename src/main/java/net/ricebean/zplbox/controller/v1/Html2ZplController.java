@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.awt.image.BufferedImage;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/html2zpl")
@@ -20,7 +21,9 @@ public class Html2ZplController extends ConverterController<HtmlRenderingParams>
     private HtmlRenderService htmlRenderService;
 
     @Override
-    protected BufferedImage renderContent(HtmlRenderingParams htmlRenderingParams, URI sourceUri) throws Exception {
-        return htmlRenderService.render(sourceUri, htmlRenderingParams.getWidthPts(), htmlRenderingParams.getHeightPts());
+    protected List<BufferedImage> renderContent(HtmlRenderingParams htmlRenderingParams, URI sourceUri) throws Exception {
+        return List.of(
+                htmlRenderService.render(sourceUri, htmlRenderingParams.getWidthPts(), htmlRenderingParams.getHeightPts())
+        );
     }
 }

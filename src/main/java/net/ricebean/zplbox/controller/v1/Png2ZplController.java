@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.awt.image.BufferedImage;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/png2zpl")
@@ -21,7 +22,7 @@ public class Png2ZplController extends ConverterController<PngRenderingParams> {
     private PngRenderService pngRenderService;
 
     @Override
-    protected BufferedImage renderContent(PngRenderingParams pngRenderingParams, URI sourceUri) throws Exception {
-        return pngRenderService.render(sourceUri);
+    protected List<BufferedImage> renderContent(PngRenderingParams pngRenderingParams, URI sourceUri) throws Exception {
+        return List.of(pngRenderService.render(sourceUri));
     }
 }
